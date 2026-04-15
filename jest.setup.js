@@ -3,13 +3,13 @@ import '@testing-library/jest-dom'
 import 'jest-canvas-mock'
 
 jest.mock('@react-three/fiber', () => ({
-  Canvas: ({ children }) => children,
+  Canvas: ({ children }) => <>{children}</>,
   useFrame: jest.fn(),
   useThree: () => ({ mouse: { x: 0, y: 0 }, camera: {} }),
 }))
 
 jest.mock('@react-three/postprocessing', () => ({
-  EffectComposer: ({ children }) => children,
+  EffectComposer: ({ children }) => <>{children}</>,
   Bloom: () => null,
 }))
 
