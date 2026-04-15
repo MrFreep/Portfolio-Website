@@ -1,0 +1,32 @@
+export const projects = [
+  {
+    id: 'project-one',
+    title: 'Project One',
+    description: 'A full-stack web application built with React and Node.js. Add your real description here.',
+    tech: ['React', 'Node', 'MongoDB'],
+    image: '/projects/project-one.png',
+    video: null,
+    liveUrl: null,
+    githubUrl: 'https://github.com/yourusername/project-one',
+  },
+  {
+    id: 'project-two',
+    title: 'Project Two',
+    description: 'A REST API backend with Express and PostgreSQL. Add your real description here.',
+    tech: ['Express', 'PostgreSQL', 'Node'],
+    image: '/projects/project-two.png',
+    video: null,
+    liveUrl: null,
+    githubUrl: 'https://github.com/yourusername/project-two',
+  },
+  {
+    id: 'project-three',
+    title: 'Project Three',
+    description: 'A frontend application with React. Add your real description here.',
+    tech: ['React', 'CSS', 'JavaScript'],
+    image: '/projects/project-three.png',
+    video: null,
+    liveUrl: null,
+    githubUrl: 'https://github.com/yourusername/project-three',
+  },
+]

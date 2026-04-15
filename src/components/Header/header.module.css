@@ -1,0 +1,151 @@
+/* Header container - positions everything in a row */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 100px 48px 0 0;
+  background-color: #f2f1ef;
+  border-bottom: 1px solid #b1a6a4;
+  overflow: visible;
+  position: relative;
+}
+
+/* Profile section - logo and name */
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.profilePicture {
+  border-radius: 0 50% 50% 0;
+  border: 2px solid #697184;
+  position: absolute;
+  top: 20px;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #413f3d;
+  margin: 0;
+}
+
+/* Navigation - center section */
+.mainNav {
+  display: flex;
+  gap: 32px;
+  position: absolute;
+  left: 35%;
+  transform: translateY(-60%);
+}
+
+.mainNav a {
+  color: #413f3d;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.mainNav a:hover {
+  color: #697184;
+}
+
+/* CTA button - right section */
+.ctaSection {
+  display: flex;
+  position: absolute;
+  right: 55px;
+  transform: translateY(-100%);
+}
+
+.ctaButton {
+  background-color: #697184;
+  color: #f2f1ef;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: #413f3d;
+}
+
+/* Tablet - screens 768px and smaller */
+@media (max-width: 768px) {
+  .header {
+    padding: 80px 20px 10px 0;
+  }
+
+  .profilePicture {
+    width: 160px;
+    height: 160px;
+  }
+
+  .mainNav {
+    gap: 20px;
+    left: 40%;
+  }
+
+  .mainNav a {
+    font-size: 14px;
+  }
+
+  .ctaSection {
+    right: 20px;
+  }
+
+  .ctaButton {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile - screens 480px and smaller */
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    min-height: 80px;
+  }
+
+  .profilePicture {
+    width: 160px;
+    height: 160px;
+    position: relative;
+    top: 0;
+  }
+
+  .mainNav {
+    position: absolute;
+    left: 67%;
+    top: 120px;
+    transform: translateX(-50%);
+    gap: 14px;
+    margin: 0;
+    justify-content: center;
+  }
+
+  .mainNav a {
+    font-size: 13px;
+  }
+
+  .ctaSection {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    transform: none;
+    margin: 0;
+  }
+
+  .ctaButton {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
