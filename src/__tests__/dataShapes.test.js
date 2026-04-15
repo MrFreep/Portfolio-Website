@@ -17,6 +17,11 @@ describe('projects data', () => {
       expect(Array.isArray(p.tech)).toBe(true)
     })
   })
+
+  test('project ids are unique', () => {
+    const ids = projects.map(p => p.id)
+    expect(new Set(ids).size).toBe(ids.length)
+  })
 })
 
 describe('skills data', () => {
@@ -32,10 +37,16 @@ describe('skills data', () => {
     })
   })
 
-  test('each skill item has label and optional icon', () => {
+  test('each skill item has label and valid icon/color pairing', () => {
     skillCategories.forEach(cat => {
       cat.items.forEach(item => {
         expect(item).toHaveProperty('label')
+        expect(item).toHaveProperty('color')
+        if (item.icon !== null && item.icon !== undefined) {
+          expect(typeof item.icon).toBe('function')
+        }
+        // icon and color should either both be null or both be non-null
+        expect(item.icon === null).toBe(item.color === null)
       })
     })
   })
