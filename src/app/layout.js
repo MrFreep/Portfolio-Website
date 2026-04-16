@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import SmoothScroll from '../components/UI/SmoothScroll'
 import ScrollProgress from '../components/UI/ScrollProgress'
+import CustomCursor from '../components/UI/CustomCursor'
+import PageLoader from '../components/UI/PageLoader'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
@@ -19,6 +21,7 @@ export default function RootLayout({ children }) {
         <div className="ambient-glow ambient-glow-cyan" aria-hidden="true" />
         <div className="ambient-glow ambient-glow-orange" aria-hidden="true" />
 
+        <CustomCursor />
         <ScrollProgress />
         <SmoothScroll>
           {children}
