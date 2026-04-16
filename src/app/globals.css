@@ -64,6 +64,12 @@ body::before {
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
 
+/* Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface-hover) var(--bg-base);
+}
+
 /* ─── Ambient Background Glows ───────────────────────── */
 .ambient-glow {
   position: fixed;
@@ -72,6 +78,7 @@ body::before {
   border-radius: 50%;
   filter: blur(80px);
   animation: drift var(--drift-duration, 25s) ease-in-out infinite;
+  will-change: transform;
 }
 
 .ambient-glow-cyan {
