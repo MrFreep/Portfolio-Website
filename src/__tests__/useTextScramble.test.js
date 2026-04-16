@@ -29,4 +29,26 @@ describe('useTextScramble', () => {
     act(() => jest.advanceTimersByTime(2000))
     expect(result.current).toBe('Hi')
   })
+
+  test('resets to original when trigger flips back to false mid-animation', () => {
+    const { result, rerender } = renderHook(
+      ({ trigger }) => useTextScramble('Hello', trigger),
+      { initialProps: { trigger: false } }
+    )
+    act(() => { rerender({ trigger: true }) })
+    act(() => jest.advanceTimersByTime(50))
+    act(() => { rerender({ trigger: false }) })
+    expect(result.current).toBe('Hello')
+  })
+
+  test('handles empty string without crashing', () => {
+    const { result, rerender } = renderHook(
+      ({ trigger }) => useTextScramble('', trigger),
+      { initialProps: { trigger: false } }
+    )
+    expect(result.current).toBe('')
+    act(() => { rerender({ trigger: true }) })
+    act(() => jest.advanceTimersByTime(200))
+    expect(result.current).toBe('')
+  })
 })

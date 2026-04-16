@@ -12,6 +12,7 @@ export default function ScrollProgress() {
 
   return (
     <motion.div
+      aria-hidden="true"
       style={{
         scaleX,
         position: 'fixed',

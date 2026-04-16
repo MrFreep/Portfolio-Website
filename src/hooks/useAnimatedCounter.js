@@ -1,30 +1,30 @@
-// src/hooks/useAnimatedCounter.js
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 export default function useAnimatedCounter(target, duration = 2000) {
   const [count, setCount] = useState(0)
   const [started, setStarted] = useState(false)
-  const timerRef = useRef(null)
+  const frameRef = useRef(null)
 
   useEffect(() => {
     if (!started) return
-    const startTime = Date.now()
-    const INTERVAL = 16
+    const startTime = performance.now()
 
-    timerRef.current = setInterval(() => {
-      const elapsed = Date.now() - startTime
+    function animate(now) {
+      const elapsed = now - startTime
       const progress = Math.min(elapsed / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
-      const newCount = Math.floor(eased * target)
-      setCount(newCount)
-      if (progress >= 1) {
+      setCount(Math.floor(eased * target))
+      if (progress < 1) {
+        frameRef.current = requestAnimationFrame(animate)
+      } else {
         setCount(target)
-        clearInterval(timerRef.current)
       }
-    }, INTERVAL)
+    }
 
-    return () => clearInterval(timerRef.current)
+    frameRef.current = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(frameRef.current)
   }, [started, target, duration])
 
-  return { count, start: () => setStarted(true) }
+  const start = useCallback(() => setStarted(true), [])
+  return { count, start }
 }

@@ -3,12 +3,19 @@ import { useState, useEffect, useRef } from 'react'
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*'
 
+/**
+ * Scrambles text character-by-character, then resolves to the original.
+ * Accessibility note: wrap the output in a container with aria-label={text}
+ * and put aria-hidden="true" on the visible scrambled element to prevent
+ * screen readers from announcing intermediate scrambled strings.
+ */
 export default function useTextScramble(text, trigger) {
   const [displayText, setDisplayText] = useState(text)
   const intervalRef = useRef(null)
 
   useEffect(() => {
     if (!trigger) {
+      clearInterval(intervalRef.current)
       setDisplayText(text)
       return
     }

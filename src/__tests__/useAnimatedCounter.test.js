@@ -22,4 +22,11 @@ describe('useAnimatedCounter', () => {
     act(() => jest.advanceTimersByTime(600))
     expect(result.current.count).toBe(100)
   })
+
+  test('cleans up animation frame on unmount', () => {
+    const { result, unmount } = renderHook(() => useAnimatedCounter(100, 500))
+    act(() => { result.current.start() })
+    act(() => jest.advanceTimersByTime(200))
+    expect(() => unmount()).not.toThrow()
+  })
 })
