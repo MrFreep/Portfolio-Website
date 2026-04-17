@@ -16,11 +16,11 @@ export default function EasterEgg() {
   const tapTimeoutRef = useRef(null)
   const triggerTimeoutRef = useRef(null)
 
-  function triggerEffect() {
+  const triggerEffect = useCallback(() => {
     setTriggered(true)
     clearTimeout(triggerTimeoutRef.current)
     triggerTimeoutRef.current = setTimeout(() => setTriggered(false), 3000)
-  }
+  }, [])
 
   useEffect(() => {
     function handleKeydown(e) {

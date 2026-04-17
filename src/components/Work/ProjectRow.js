@@ -37,6 +37,7 @@ export default function ProjectRow({ project, index }) {
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
       {/* Image side */}
+      <div style={{ perspective: '800px' }}>
       <motion.div
         ref={imgRef}
         className={styles.imageWrapper}
@@ -44,7 +45,6 @@ export default function ProjectRow({ project, index }) {
           rotateY: tilt.x,
           rotateX: tilt.y,
           transformStyle: 'preserve-3d',
-          perspective: 800,
         }}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
@@ -66,6 +66,7 @@ export default function ProjectRow({ project, index }) {
           )}
         </div>
       </motion.div>
+      </div>
 
       {/* Content side */}
       <div className={styles.projectContent}>

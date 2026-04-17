@@ -38,10 +38,16 @@ export default function Contact() {
     }
   }
 
-  function handleCopyEmail() {
-    navigator.clipboard.writeText(YOUR_EMAIL)
-    setCopyLabel('Copied!')
-    setTimeout(() => setCopyLabel('Copy'), 2000)
+  async function handleCopyEmail() {
+    try {
+      await navigator.clipboard.writeText(YOUR_EMAIL)
+      setCopyLabel('Copied!')
+      setTimeout(() => setCopyLabel('Copy'), 2000)
+    } catch {
+      // Clipboard API unavailable — let user copy manually
+      setCopyLabel('Failed')
+      setTimeout(() => setCopyLabel('Copy'), 2000)
+    }
   }
 
   return (
