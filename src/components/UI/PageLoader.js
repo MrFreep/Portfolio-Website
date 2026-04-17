@@ -1,33 +1,50 @@
 // src/components/UI/PageLoader.js
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function PageLoader({ onComplete }) {
   const [progress, setProgress] = useState(0)
   const [done, setDone] = useState(false)
+  const onCompleteRef = useRef(onComplete)
+  const completedRef = useRef(false)
 
   useEffect(() => {
+    onCompleteRef.current = onComplete
+  })
+
+  useEffect(() => {
+    let timeoutId = null
+
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
-          clearInterval(interval)
-          setTimeout(() => {
-            setDone(true)
-            onComplete?.()
-          }, 400)
+          if (!completedRef.current) {
+            completedRef.current = true
+            clearInterval(interval)
+            timeoutId = setTimeout(() => {
+              setDone(true)
+              onCompleteRef.current?.()
+            }, 400)
+          }
           return 100
         }
         return prev + 5
       })
     }, 80)
-    return () => clearInterval(interval)
-  }, [onComplete])
+
+    return () => {
+      clearInterval(interval)
+      if (timeoutId) clearTimeout(timeoutId)
+    }
+  }, [])
 
   return (
     <AnimatePresence>
       {!done && (
         <motion.div
+          role="status"
+          aria-label="Loading"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -82,13 +99,13 @@ export default function PageLoader({ onComplete }) {
             overflow: 'hidden',
           }}>
             <motion.div
+              animate={{ width: `${Math.min(progress, 100)}%` }}
+              transition={{ duration: 0.08, ease: 'linear' }}
               style={{
                 height: '100%',
                 background: 'linear-gradient(90deg, var(--accent-cyan), var(--accent-orange))',
-                width: `${Math.min(progress, 100)}%`,
                 boxShadow: '0 0 8px var(--accent-cyan)',
               }}
-              transition={{ duration: 0.1 }}
             />
           </div>
         </motion.div>
