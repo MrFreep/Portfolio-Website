@@ -21,6 +21,7 @@ export default function RootLayout({ children }) {
         <div className="ambient-glow ambient-glow-cyan" aria-hidden="true" />
         <div className="ambient-glow ambient-glow-orange" aria-hidden="true" />
 
+        <PageLoader />
         <CustomCursor />
         <ScrollProgress />
         <SmoothScroll>
