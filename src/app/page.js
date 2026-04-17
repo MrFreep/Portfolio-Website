@@ -8,7 +8,6 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        {/* sections added here as they are built */}
       </main>
     </div>
   )
