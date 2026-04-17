@@ -56,9 +56,10 @@ function AnimatedName({ name }) {
           initial={{ opacity: 0, y: 60, rotateX: -90 }}
           animate={{ opacity: 1, y: 0, rotateX: 0 }}
           transition={{
-            duration: 0.8,
+            type: 'spring',
+            stiffness: 200,
+            damping: 20,
             delay: 0.8 + i * 0.04,
-            ease: [0.16, 1, 0.3, 1],
           }}
           style={{ display: 'inline-block' }}
         >
@@ -75,7 +76,9 @@ export default function Hero() {
   const primaryMagnetic = useMagneticButton(0.3)
   const outlineMagnetic = useMagneticButton(0.3)
   const { scrollY } = useScroll()
-  const isTouch = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
+  const [isTouch] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
+  )
   const canvasY = useTransform(scrollY, [0, 800], [0, -240])
 
   function handleMouseMove(e) {

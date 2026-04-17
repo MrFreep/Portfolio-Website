@@ -1,6 +1,6 @@
 // src/components/Hero/ParticleField.js
 'use client'
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
@@ -64,8 +64,9 @@ function Particles({ count }) {
 }
 
 export default function ParticleField() {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
-  const count = isMobile ? 600 : 2000
+  const [count] = useState(() =>
+    typeof window !== 'undefined' && window.innerWidth <= 768 ? 600 : 2000
+  )
 
   return (
     <Canvas
@@ -73,7 +74,6 @@ export default function ParticleField() {
       style={{ position: 'absolute', inset: 0 }}
       dpr={[1, 2]}
     >
-      <ambientLight intensity={0.5} />
       <Particles count={count} />
       <EffectComposer>
         <Bloom

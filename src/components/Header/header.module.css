@@ -97,6 +97,7 @@
   border: none;
   padding: 8px;
   z-index: 200;
+  cursor: pointer;
 }
 
 .hamburgerLine {
