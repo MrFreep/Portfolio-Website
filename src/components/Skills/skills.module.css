@@ -1,0 +1,110 @@
+/* src/components/Skills/skills.module.css */
+
+.skills {
+  position: relative;
+  padding: 120px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.heading {
+  font-size: clamp(36px, 5vw, 48px);
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 64px;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 1;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.category {}
+
+.categoryName {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 20px;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.skillItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fg-muted);
+  transition: color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skillItem:hover {
+  color: var(--fg);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.15);
+}
+
+.skillIcon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.skillBadge {
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: color 0.2s ease;
+}
+
+.skillBadge:hover {
+  color: var(--fg);
+}
+
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-elevated);
+  color: var(--fg);
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  border: 1px solid var(--border);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.skillItem:hover .tooltip {
+  opacity: 1;
+}
+
+@media (max-width: 480px) {
+  .skills {
+    padding: 80px 24px;
+  }
+}
