@@ -3,7 +3,8 @@
 import { useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import emailjs from '@emailjs/browser'
-import { SiGithub, SiLinkedin } from 'react-icons/si'
+import { SiGithub } from 'react-icons/si'
+import { FaLinkedin } from 'react-icons/fa'
 import useTextScramble from '../../hooks/useTextScramble'
 import useMagneticButton from '../../hooks/useMagneticButton'
 import styles from './contact.module.css'
@@ -159,7 +160,7 @@ export default function Contact() {
             className={styles.socialLink}
             data-cursor="link"
           >
-            <SiLinkedin className={styles.socialIcon} aria-hidden="true" />
+            <FaLinkedin className={styles.socialIcon} aria-hidden="true" />
             LinkedIn
           </a>
         </div>

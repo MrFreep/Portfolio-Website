@@ -1,5 +1,6 @@
 // src/components/Footer/Footer.js
-import { SiGithub, SiLinkedin } from 'react-icons/si'
+import { SiGithub } from 'react-icons/si'
+import { FaLinkedin } from 'react-icons/fa'
 import styles from './footer.module.css'
 
 const YOUR_GITHUB = 'https://github.com/jkeenan3403'
@@ -27,7 +28,7 @@ export default function Footer() {
           aria-label="LinkedIn profile"
           data-cursor="link"
         >
-          <SiLinkedin className={styles.socialIcon} aria-hidden="true" />
+          <FaLinkedin className={styles.socialIcon} aria-hidden="true" />
         </a>
       </div>
     </footer>

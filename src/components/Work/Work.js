@@ -14,9 +14,9 @@ export function filterProjects(projectList, activeFilter) {
 }
 
 function getFilterTags(projectList) {
-  const tags = new Set(['All'])
-  projectList.forEach(p => p.tech.forEach(t => tags.add(t)))
-  return Array.from(tags)
+  const allTags = new Set()
+  projectList.forEach(p => p.tech.forEach(t => allTags.add(t)))
+  return ['All', ...Array.from(allTags).sort()]
 }
 
 export default function Work() {

@@ -1,7 +1,7 @@
 import {
-  SiJavascript, SiCss3, SiReact, SiExpress,
+  SiJavascript, SiCss, SiReact, SiExpress,
   SiMongodb, SiPostgresql, SiJest,
-  SiNpm, SiGithub, SiVisualstudiocode, SiPostman,
+  SiNpm, SiGithub, SiVscodium, SiPostman,
 } from 'react-icons/si'
 
 export const skillCategories = [
@@ -9,7 +9,7 @@ export const skillCategories = [
     name: 'Languages',
     items: [
       { label: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
-      { label: 'CSS', icon: SiCss3, color: '#1572B6' },
+      { label: 'CSS', icon: SiCss, color: '#1572B6' },
       { label: 'SQL', icon: null, color: null },
     ],
   },
@@ -46,7 +46,7 @@ export const skillCategories = [
       { label: 'NPM', icon: SiNpm, color: '#CB3837' },
       { label: 'Mongoose', icon: null, color: null },
       { label: 'GitHub', icon: SiGithub, color: '#ffffff' },
-      { label: 'VS Code', icon: SiVisualstudiocode, color: '#007ACC' },
+      { label: 'VS Code', icon: SiVscodium, color: '#007ACC' },
       { label: 'Postman', icon: SiPostman, color: '#FF6C37' },
     ],
   },
