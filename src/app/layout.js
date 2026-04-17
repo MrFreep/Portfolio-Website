@@ -4,6 +4,7 @@ import SmoothScroll from '../components/UI/SmoothScroll'
 import ScrollProgress from '../components/UI/ScrollProgress'
 import CustomCursor from '../components/UI/CustomCursor'
 import PageLoader from '../components/UI/PageLoader'
+import EasterEgg from '../components/UI/EasterEgg'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
         <div className="ambient-glow ambient-glow-orange" aria-hidden="true" />
 
         <PageLoader />
+        <EasterEgg />
         <CustomCursor />
         <ScrollProgress />
         <SmoothScroll>

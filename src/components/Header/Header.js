@@ -49,7 +49,11 @@ export default function Header() {
   return (
     <>
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
-        <a href="#home" className={styles.logo}>
+        <a
+          href="#home"
+          className={styles.logo}
+          onClick={() => window.dispatchEvent(new Event('logo-tap'))}
+        >
           James <span>Keenan</span>
         </a>
 
