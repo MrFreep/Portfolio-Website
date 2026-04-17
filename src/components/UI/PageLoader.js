@@ -18,7 +18,7 @@ export default function PageLoader({ onComplete }) {
           }, 400)
           return 100
         }
-        return prev + Math.random() * 15
+        return prev + 5
       })
     }, 80)
     return () => clearInterval(interval)

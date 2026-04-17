@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
 export default function CustomCursor() {
-  const [variant, setVariant] = useState('default') // 'default' | 'link' | 'button'
+  const [variant, setVariant] = useState('default') // 'default' | 'link' | 'button' | 'clicked'
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
   const springX = useSpring(cursorX, { stiffness: 500, damping: 40 })
@@ -29,11 +29,18 @@ export default function CustomCursor() {
       }
     }
 
+    function handleMouseDown() { setVariant('clicked') }
+    function handleMouseUp() { setVariant('default') }
+
     window.addEventListener('mousemove', moveCursor)
     window.addEventListener('mouseover', handleMouseOver)
+    window.addEventListener('mousedown', handleMouseDown)
+    window.addEventListener('mouseup', handleMouseUp)
     return () => {
       window.removeEventListener('mousemove', moveCursor)
       window.removeEventListener('mouseover', handleMouseOver)
+      window.removeEventListener('mousedown', handleMouseDown)
+      window.removeEventListener('mouseup', handleMouseUp)
     }
   }, [cursorX, cursorY])
 
@@ -41,6 +48,7 @@ export default function CustomCursor() {
     default: { width: 16, height: 16, backgroundColor: 'var(--accent-cyan)', opacity: 0.8 },
     link:    { width: 32, height: 32, backgroundColor: 'transparent', border: '2px solid var(--accent-cyan)', opacity: 1 },
     button:  { width: 12, height: 12, backgroundColor: 'var(--accent-orange)', opacity: 1 },
+    clicked: { width: 8, height: 8, backgroundColor: 'var(--accent-cyan)', opacity: 1 },
   }
 
   return (
