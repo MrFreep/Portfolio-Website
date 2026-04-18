@@ -2,15 +2,12 @@
 'use client'
 import { useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import dynamic from 'next/dynamic'
 import emailjs from '@emailjs/browser'
 import { SiGithub } from 'react-icons/si'
 import { FaLinkedin } from 'react-icons/fa'
 import useTextScramble from '../../hooks/useTextScramble'
 import useMagneticButton from '../../hooks/useMagneticButton'
 import styles from './contact.module.css'
-
-const ContactBackground = dynamic(() => import('./ContactBackground'), { ssr: false })
 
 const YOUR_EMAIL = 'james.keenan3403@gmail.com'
 const YOUR_GITHUB = 'https://github.com/jkeenan3403'
@@ -56,7 +53,6 @@ export default function Contact() {
 
   return (
     <section id="contact" className={styles.contact} ref={sectionRef}>
-      <ContactBackground />
       <span className="section-number" aria-hidden="true">04</span>
 
       <motion.div

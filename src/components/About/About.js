@@ -3,12 +3,9 @@
 import { useRef, useEffect } from 'react'
 import { motion, useInView, useScroll, useTransform, useSpring } from 'framer-motion'
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
 import useAnimatedCounter from '../../hooks/useAnimatedCounter'
 import useTextScramble from '../../hooks/useTextScramble'
 import styles from './about.module.css'
-
-const GeometryBackground = dynamic(() => import('./GeometryBackground'), { ssr: false })
 
 const COUNTERS = [
   { target: 3,  suffix: '+', label: 'Projects Built' },
@@ -56,7 +53,6 @@ export default function About() {
 
   return (
     <section id="about" className={styles.about} ref={ref}>
-      <GeometryBackground />
       <span className="section-number" aria-hidden="true">01</span>
 
       <div className={styles.inner}>

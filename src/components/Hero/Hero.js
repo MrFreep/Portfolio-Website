@@ -1,13 +1,9 @@
 // src/components/Hero/Hero.js
 'use client'
 import { useState, useEffect } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import dynamic from 'next/dynamic'
+import { motion } from 'framer-motion'
 import useMagneticButton from '../../hooks/useMagneticButton'
 import styles from './hero.module.css'
-
-// Dynamically import Three.js to avoid SSR issues
-const ParticleField = dynamic(() => import('./ParticleField'), { ssr: false })
 
 const ROLES = ['Software Engineer', 'Full-Stack Developer', 'Problem Solver']
 
@@ -75,12 +71,6 @@ export default function Hero() {
   const [spotlight, setSpotlight] = useState({ x: 50, y: 50 })
   const primaryMagnetic = useMagneticButton(0.3)
   const outlineMagnetic = useMagneticButton(0.3)
-  const { scrollY } = useScroll()
-  const [isTouch] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
-  )
-  const canvasY = useTransform(scrollY, [0, 800], [0, -240])
-
   function handleMouseMove(e) {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = ((e.clientX - rect.left) / rect.width) * 100
@@ -94,14 +84,6 @@ export default function Hero() {
       className={styles.hero}
       onMouseMove={handleMouseMove}
     >
-      {/* Three.js particle background with parallax */}
-      <motion.div
-        className={styles.canvas}
-        style={{ y: isTouch ? 0 : canvasY }}
-      >
-        <ParticleField />
-      </motion.div>
-
       {/* Spotlight effect */}
       <div
         className={styles.spotlight}

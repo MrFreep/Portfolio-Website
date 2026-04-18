@@ -2,13 +2,10 @@
 'use client'
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence, LayoutGroup, useInView } from 'framer-motion'
-import dynamic from 'next/dynamic'
 import useTextScramble from '../../hooks/useTextScramble'
 import { projects } from '../../data/projects'
 import ProjectRow from './ProjectRow'
 import styles from './work.module.css'
-
-const WorkBackground = dynamic(() => import('./WorkBackground'), { ssr: false })
 
 // Exported so it can be unit tested
 export function filterProjects(projectList, activeFilter) {
@@ -33,7 +30,6 @@ export default function Work() {
 
   return (
     <section id="work" className={styles.work} ref={ref}>
-      <WorkBackground />
       <span className="section-number" aria-hidden="true">03</span>
 
       <h2 className={styles.heading}>{headingText}</h2>
