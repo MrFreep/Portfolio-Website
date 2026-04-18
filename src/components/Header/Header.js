@@ -28,6 +28,8 @@ export default function Header() {
   }, [])
 
   // Active section via Intersection Observer
+  // rootMargin '-50% 0px -50% 0px' shrinks the root to a single horizontal
+  // line at the viewport center, so tall sections (e.g. Work) still activate
   useEffect(() => {
     const sections = document.querySelectorAll('section[id]')
     const observer = new IntersectionObserver(
@@ -36,7 +38,7 @@ export default function Header() {
           if (entry.isIntersecting) setActiveSection(entry.target.id)
         })
       },
-      { threshold: 0.5 }
+      { threshold: 0, rootMargin: '-50% 0px -50% 0px' }
     )
     sections.forEach(s => observer.observe(s))
     return () => observer.disconnect()
