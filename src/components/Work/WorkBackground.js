@@ -4,133 +4,92 @@ import { useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-// A single glowing torus ring
-function Ring({ z, index, total }) {
-  const meshRef = useRef()
+// The canvas is position:absolute inset:0, so it's as tall as the Work section
+// (often 2000–3000px).  R3F maps the camera frustum to the full canvas, so
+// objects must be spread along the Y axis to appear throughout the section.
+//
+// Camera z=9, fov 65 → at z=0 the visible half-height ≈ 4.8 world-units.
+// We spread rings from y = -Y_HALF to +Y_HALF so they fill the full canvas.
 
-  // Alternate cyan / orange colouring across the tunnel
-  const color = useMemo(() => {
-    const t = index / total
-    return t < 0.5 ? '#22d3ee' : '#f97316'
-  }, [index, total])
+const Y_HALF  = 14   // covers even very long sections
+const RINGS   = 22   // number of rings spread top-to-bottom
+
+// ── Single glowing ring ────────────────────────────────────────────────────
+function Ring({ y, index }) {
+  const ref = useRef()
+
+  // Alternating colours, evenly distributed
+  const color  = index % 2 === 0 ? '#22d3ee' : '#f97316'
+  // Slight horizontal stagger so they don't all sit on x=0
+  const xShift = Math.sin(index * 1.3) * 0.9
+  // Slight initial tilt per ring
+  const tiltX0 = Math.cos(index * 0.9) * 0.18
+  const tiltZ0 = Math.sin(index * 0.7) * 0.12
 
   useFrame(({ clock }) => {
-    if (!meshRef.current) return
+    if (!ref.current) return
     const t = clock.elapsedTime
-    // Slow rotation on two axes — each ring at its own phase
-    meshRef.current.rotation.x = t * 0.12 + index * 0.4
-    meshRef.current.rotation.z = t * 0.08 + index * 0.25
-    // Subtle breathing scale
-    const pulse = 1 + Math.sin(t * 0.6 + index * 0.8) * 0.04
-    meshRef.current.scale.setScalar(pulse)
+    ref.current.rotation.x = tiltX0 + Math.sin(t * 0.22 + index * 0.55) * 0.07
+    ref.current.rotation.z = tiltZ0 + Math.cos(t * 0.18 + index * 0.40) * 0.06
   })
 
   return (
-    <mesh ref={meshRef} position={[z, 0, 0]}>
-      <torusGeometry args={[1.6, 0.018, 8, 96]} />
-      <meshBasicMaterial color={color} transparent opacity={0.22} />
+    <mesh ref={ref} position={[xShift, y, 0]}>
+      {/* radius 2.1, tube 0.022 — fits well within camera FOV width */}
+      <torusGeometry args={[2.1, 0.022, 10, 100]} />
+      <meshBasicMaterial color={color} transparent opacity={0.20} />
     </mesh>
   )
 }
 
-// Thin horizontal grid lines that travel through the tunnel
-function GridLines() {
-  const linesRef = useRef()
-
-  const geometry = useMemo(() => {
-    const pts = []
-    // 8 horizontal lines evenly spaced vertically
-    for (let i = 0; i < 8; i++) {
-      const y = -3.5 + i * 1.0
-      pts.push(new THREE.Vector3(-28, y, 0))
-      pts.push(new THREE.Vector3( 28, y, 0))
-    }
-    const g = new THREE.BufferGeometry().setFromPoints(pts)
+// ── Vertical spine that runs the full height ──────────────────────────────
+function Spine() {
+  const geo = useMemo(() => {
+    const g = new THREE.BufferGeometry()
+    g.setFromPoints([
+      new THREE.Vector3(0, -(Y_HALF + 2), 0),
+      new THREE.Vector3(0,  (Y_HALF + 2), 0),
+    ])
     return g
   }, [])
 
-  useFrame(({ clock }) => {
-    if (!linesRef.current) return
-    // Drift forward slowly
-    linesRef.current.position.z = (clock.elapsedTime * 0.15) % 1.0
-  })
-
   return (
-    <lineSegments ref={linesRef} geometry={geometry}>
-      <lineBasicMaterial color="#22d3ee" transparent opacity={0.045} />
-    </lineSegments>
+    <line geometry={geo}>
+      <lineBasicMaterial color="#22d3ee" transparent opacity={0.12} />
+    </line>
   )
 }
 
-// Vertical tick marks that connect ring positions to grid lines
-function VerticalTicks({ count }) {
-  const geometry = useMemo(() => {
+// ── Horizontal connector marks at each ring position ─────────────────────
+function ConnectorMarks({ yValues }) {
+  const geo = useMemo(() => {
     const pts = []
-    const spread = 28
-    for (let i = 0; i < count; i++) {
-      const x = -spread + (i / (count - 1)) * spread * 2
-      pts.push(new THREE.Vector3(x, -1.65, 0))
-      pts.push(new THREE.Vector3(x,  1.65, 0))
-    }
+    yValues.forEach(y => {
+      pts.push(new THREE.Vector3(-3.5, y, 0))
+      pts.push(new THREE.Vector3( 3.5, y, 0))
+    })
     return new THREE.BufferGeometry().setFromPoints(pts)
-  }, [count])
+  }, [yValues])
 
   return (
-    <lineSegments geometry={geometry}>
-      <lineBasicMaterial color="#f97316" transparent opacity={0.04} />
+    <lineSegments geometry={geo}>
+      <lineBasicMaterial color="#f97316" transparent opacity={0.055} />
     </lineSegments>
   )
 }
 
-// Small particles sprinkled along the horizontal band
-function Particles() {
-  const ref = useRef()
-
-  const { positions, colors } = useMemo(() => {
-    const count = 260
-    const pos = new Float32Array(count * 3)
-    const col = new Float32Array(count * 3)
-    const cyan   = new THREE.Color('#22d3ee')
-    const orange = new THREE.Color('#f97316')
-    for (let i = 0; i < count; i++) {
-      pos[i * 3]     = (Math.random() - 0.5) * 56   // wide x spread
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 5    // narrow y band
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 2
-      const c = Math.random() < 0.5 ? cyan : orange
-      col[i * 3]     = c.r
-      col[i * 3 + 1] = c.g
-      col[i * 3 + 2] = c.b
-    }
-    return { positions: pos, colors: col }
-  }, [])
-
-  useFrame(({ clock }) => {
-    if (!ref.current) return
-    ref.current.rotation.y = clock.elapsedTime * 0.008
-  })
-
-  return (
-    <points ref={ref}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-        <bufferAttribute attach="attributes-color"    args={[colors,    3]} />
-      </bufferGeometry>
-      <pointsMaterial size={0.04} vertexColors transparent opacity={0.5} sizeAttenuation />
-    </points>
-  )
-}
-
-const RING_COUNT = 18
-
+// ── Main export ────────────────────────────────────────────────────────────
 export default function WorkBackground() {
-  // Spread rings evenly across the section width
-  const ringZPositions = useMemo(() =>
-    Array.from({ length: RING_COUNT }, (_, i) => -26 + (i / (RING_COUNT - 1)) * 52),
-  [])
+  const yValues = useMemo(
+    () => Array.from({ length: RINGS }, (_, i) =>
+      -Y_HALF + (i / (RINGS - 1)) * (Y_HALF * 2)
+    ),
+    []
+  )
 
   return (
     <Canvas
-      camera={{ position: [0, 0, 5], fov: 75 }}
+      camera={{ position: [0, 0, 9], fov: 65 }}
       style={{
         position: 'absolute',
         inset: 0,
@@ -139,11 +98,10 @@ export default function WorkBackground() {
       }}
       dpr={[1, 1.5]}
     >
-      <GridLines />
-      <VerticalTicks count={RING_COUNT} />
-      <Particles />
-      {ringZPositions.map((z, i) => (
-        <Ring key={i} z={z} index={i} total={RING_COUNT} />
+      <Spine />
+      <ConnectorMarks yValues={yValues} />
+      {yValues.map((y, i) => (
+        <Ring key={i} y={y} index={i} />
       ))}
     </Canvas>
   )

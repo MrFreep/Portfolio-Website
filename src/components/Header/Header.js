@@ -27,21 +27,25 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Active section via Intersection Observer
-  // rootMargin '-50% 0px -50% 0px' shrinks the root to a single horizontal
-  // line at the viewport center, so tall sections (e.g. Work) still activate
+  // Active section: scroll-based, checks which section's top is above the
+  // viewport centre. Works for sections taller than the viewport.
   useEffect(() => {
-    const sections = document.querySelectorAll('section[id]')
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id)
-        })
-      },
-      { threshold: 0, rootMargin: '-50% 0px -50% 0px' }
-    )
-    sections.forEach(s => observer.observe(s))
-    return () => observer.disconnect()
+    const getSections = () => Array.from(document.querySelectorAll('section[id]'))
+
+    function findActive() {
+      const sections = getSections()
+      if (!sections.length) return
+      const midY = window.innerHeight / 2
+      let active = sections[0].id
+      for (const s of sections) {
+        if (s.getBoundingClientRect().top <= midY) active = s.id
+      }
+      setActiveSection(active)
+    }
+
+    findActive()
+    window.addEventListener('scroll', findActive, { passive: true })
+    return () => window.removeEventListener('scroll', findActive)
   }, [])
 
   function handleNavClick() {
