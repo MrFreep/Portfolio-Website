@@ -1,138 +1,141 @@
 // src/components/UI/GlobalBackground.js
-// ONE fixed canvas behind the entire page.
-// A liquid wave surface fills the viewport; scroll drives smooth color + motion
-// transitions through Hero → About → Skills → Work → Contact.
+//
+// ONE fixed canvas. The camera travels DOWN the Y axis as the user scrolls,
+// passing each section's 3D object in turn. Objects come into frame, fill
+// the viewport, then float off above — exactly like scrolling through a
+// physical 3D space.
 'use client'
 import { useRef, useEffect, useMemo } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-// ── Resolution ─────────────────────────────────────────────────────────────
-const SW = 60   // width segments
-const SH = 44   // height segments
-const PW = 9    // plane width  (world units)
-const PH = 6    // plane height
+const lerp = (a, b, t) => a + (b - a) * t
 
-// ── Per-section visual configs (Hero → About → Skills → Work → Contact) ───
-const SECTION_CONFIGS = [
-  // Hero — electric cyan, energetic
-  { bright: [0.133, 0.827, 0.933], dark: [0.008, 0.059, 0.078], speed: 1.05, amp: 1.1, fx: 0.40, fy: 0.30 },
-  // About — warm amber, slower and cosy
-  { bright: [0.976, 0.451, 0.086], dark: [0.078, 0.031, 0.000], speed: 0.62, amp: 0.72, fx: 0.33, fy: 0.38 },
-  // Skills — cool electric blue, structured
-  { bright: [0.220, 0.749, 0.996], dark: [0.016, 0.047, 0.094], speed: 1.10, amp: 0.88, fx: 0.48, fy: 0.28 },
-  // Work — orange / warm, dynamic
-  { bright: [0.980, 0.471, 0.090], dark: [0.082, 0.027, 0.000], speed: 0.88, amp: 1.12, fx: 0.38, fy: 0.42 },
-  // Contact — deep cyan, calm and settled
-  { bright: [0.133, 0.827, 0.933], dark: [0.008, 0.047, 0.063], speed: 0.44, amp: 0.52, fx: 0.28, fy: 0.24 },
-]
+// Total world-units the camera travels (hero y=0 → contact y=TRAVEL)
+const TRAVEL = -36
 
-function lerp(a, b, t) { return a + (b - a) * t }
+// ── Camera rig — smooth scroll-driven vertical travel ─────────────────────
+function CameraRig({ scrollRef }) {
+  const { camera } = useThree()
+  const y = useRef(0)
 
-// Returns a config interpolated to the page scroll progress (0 → 1)
-function sampleConfig(scroll) {
-  const max = SECTION_CONFIGS.length - 1
-  const pos = scroll * max
-  const i   = Math.min(Math.floor(pos), max - 1)
-  const t   = pos - i
-  const A   = SECTION_CONFIGS[i]
-  const B   = SECTION_CONFIGS[i + 1]
-  return {
-    br: lerp(A.bright[0], B.bright[0], t),
-    bg: lerp(A.bright[1], B.bright[1], t),
-    bb: lerp(A.bright[2], B.bright[2], t),
-    dr: lerp(A.dark[0],   B.dark[0],   t),
-    dg: lerp(A.dark[1],   B.dark[1],   t),
-    db: lerp(A.dark[2],   B.dark[2],   t),
-    speed: lerp(A.speed, B.speed, t),
-    amp:   lerp(A.amp,   B.amp,   t),
-    fx:    lerp(A.fx,    B.fx,    t),
-    fy:    lerp(A.fy,    B.fy,    t),
-  }
+  useFrame(() => {
+    const target = scrollRef.current * TRAVEL
+    y.current = lerp(y.current, target, 0.055)
+    camera.position.y = y.current
+  })
+
+  return null
 }
 
-// ── The wave mesh ──────────────────────────────────────────────────────────
-function LiquidField({ scrollRef }) {
-  const geo = useMemo(() => {
-    const g = new THREE.PlaneGeometry(PW, PH, SW, SH)
-    g.setAttribute(
-      'color',
-      new THREE.BufferAttribute(new Float32Array((SW + 1) * (SH + 1) * 3), 3)
-    )
-    return g
-  }, [])
-
-  const mat = useMemo(() => new THREE.MeshBasicMaterial({
-    vertexColors: true,
-    transparent: true,
-    opacity: 0.58,
-    depthWrite: false,
-    side: THREE.DoubleSide,
-  }), [])
-
-  // Smoothed live config — lerps toward target each frame for liquid feel
-  const live = useRef(sampleConfig(0))
+// ── About: large wireframe icosahedron, right side ─────────────────────────
+function AboutObject() {
+  const mesh = useRef()
 
   useFrame(({ clock }) => {
-    const target = sampleConfig(scrollRef.current)
-    const c  = live.current
-    const lf = 0.022  // lerp factor — slow enough to feel like fluid, fast enough to follow scroll
-
-    c.br    = lerp(c.br,    target.br,    lf)
-    c.bg    = lerp(c.bg,    target.bg,    lf)
-    c.bb    = lerp(c.bb,    target.bb,    lf)
-    c.dr    = lerp(c.dr,    target.dr,    lf)
-    c.dg    = lerp(c.dg,    target.dg,    lf)
-    c.db    = lerp(c.db,    target.db,    lf)
-    c.speed = lerp(c.speed, target.speed, lf)
-    c.amp   = lerp(c.amp,   target.amp,   lf)
-    c.fx    = lerp(c.fx,    target.fx,    lf)
-    c.fy    = lerp(c.fy,    target.fy,    lf)
-
-    const t   = clock.elapsedTime * c.speed
-    const pos = geo.attributes.position
-    const col = geo.attributes.color
-
-    for (let i = 0; i < pos.count; i++) {
-      const ci  = i % (SW + 1)
-      const ri  = Math.floor(i / (SW + 1))
-      const x   = -PW / 2 + ci * (PW / SW)
-      const y   = -PH / 2 + ri * (PH / SH)
-
-      // Organic multi-frequency wave — four overlapping sinusoids
-      const z =
-        Math.sin(x * c.fx * 1.0 + t * 0.72)                        * c.amp * 0.80 +
-        Math.sin(y * c.fy * 0.9 - t * 0.48 + 1.3)                  * c.amp * 0.55 +
-        Math.cos((x + y) * c.fx * 0.6 + t * 0.55)                  * c.amp * 0.42 +
-        Math.sin(x * c.fx * 0.28 - y * c.fy * 0.22 + t * 0.38)     * c.amp * 0.28
-
-      pos.setZ(i, z)
-
-      // Map height to colour: trough = dark, peak = bright
-      const range = c.amp * 4.0
-      const n = Math.max(0, Math.min(1, (z + range * 0.5) / range))
-      col.setXYZ(i,
-        c.dr + (c.br - c.dr) * n,
-        c.dg + (c.bg - c.dg) * n,
-        c.db + (c.bb - c.db) * n,
-      )
-    }
-
-    pos.needsUpdate = true
-    col.needsUpdate = true
+    if (!mesh.current) return
+    mesh.current.rotation.x = clock.elapsedTime * 0.17
+    mesh.current.rotation.y = clock.elapsedTime * 0.26
   })
 
   return (
-    <mesh
-      geometry={geo}
-      material={mat}
-      rotation={[-Math.PI * 0.30, 0, 0]}
-      position={[0, -0.4, 0]}
-    />
+    <mesh ref={mesh} position={[3.8, TRAVEL * 0.22, -2]}>
+      <icosahedronGeometry args={[3.0, 1]} />
+      <meshBasicMaterial color="#22d3ee" wireframe transparent opacity={0.28} />
+    </mesh>
   )
 }
 
-// ── Canvas wrapper ─────────────────────────────────────────────────────────
+// ── Skills: constellation of lines, left side ─────────────────────────────
+function SkillsObject() {
+  const group = useRef()
+
+  const lineGeo = useMemo(() => {
+    // Deterministic node layout — no Math.random so it's stable across renders
+    const nodes = [
+      [ 0.0,  0.0, 0], [ 2.2,  1.0, 0], [-2.0,  1.4, 0], [ 0.8,  2.6, 0],
+      [-0.9, -1.6, 0], [ 2.8, -0.4, 0], [-2.7, -0.9, 0], [ 0.1,  3.2, 0],
+      [ 3.1,  2.1, 0], [-3.0,  2.0, 0], [ 1.6, -2.2, 0], [-1.4, -2.6, 0],
+      [ 2.6,  2.7, 0], [-2.1, -0.4, 0], [ 0.4, -3.1, 0],
+    ]
+    const edges = [
+      [0,1],[0,2],[0,3],[1,3],[2,3],[1,8],[3,7],[2,9],
+      [0,4],[0,5],[0,6],[4,11],[5,10],[6,12],[7,8],[9,12],
+      [4,13],[5,1],[10,14],[11,6],[3,8],[2,6],
+    ]
+    const pts = []
+    edges.forEach(([a, b]) => {
+      pts.push(new THREE.Vector3(...nodes[a]))
+      pts.push(new THREE.Vector3(...nodes[b]))
+    })
+    return new THREE.BufferGeometry().setFromPoints(pts)
+  }, [])
+
+  useFrame(({ clock }) => {
+    if (!group.current) return
+    const t = clock.elapsedTime
+    group.current.rotation.z = Math.sin(t * 0.14) * 0.18
+    group.current.rotation.y = t * 0.07
+  })
+
+  return (
+    <group ref={group} position={[-4.0, TRAVEL * 0.44, 0]}>
+      <lineSegments geometry={lineGeo}>
+        <lineBasicMaterial color="#22d3ee" transparent opacity={0.38} />
+      </lineSegments>
+    </group>
+  )
+}
+
+// ── Work: torus knot, right side ──────────────────────────────────────────
+function WorkObject() {
+  const mesh = useRef()
+
+  useFrame(({ clock }) => {
+    if (!mesh.current) return
+    mesh.current.rotation.x = clock.elapsedTime * 0.14
+    mesh.current.rotation.y = clock.elapsedTime * 0.21
+    mesh.current.rotation.z = clock.elapsedTime * 0.07
+  })
+
+  return (
+    <mesh ref={mesh} position={[3.2, TRAVEL * 0.66, -3]}>
+      <torusKnotGeometry args={[2.2, 0.55, 140, 16, 2, 3]} />
+      <meshBasicMaterial color="#f97316" wireframe transparent opacity={0.22} />
+    </mesh>
+  )
+}
+
+// ── Contact: three nested orbiting rings, centred ─────────────────────────
+function ContactObject() {
+  const r1 = useRef(), r2 = useRef(), r3 = useRef()
+
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime
+    if (r1.current) { r1.current.rotation.x = t * 0.22; r1.current.rotation.y = t * 0.16 }
+    if (r2.current) { r2.current.rotation.y = t * 0.30; r2.current.rotation.z = t * 0.13 }
+    if (r3.current) { r3.current.rotation.z = t * 0.26; r3.current.rotation.x = t * 0.19 }
+  })
+
+  return (
+    <group position={[0, TRAVEL * 0.90, 0]}>
+      <mesh ref={r1}>
+        <torusGeometry args={[3.0, 0.035, 8, 128]} />
+        <meshBasicMaterial color="#22d3ee" transparent opacity={0.42} />
+      </mesh>
+      <mesh ref={r2}>
+        <torusGeometry args={[2.0, 0.030, 8, 100]} />
+        <meshBasicMaterial color="#f97316" transparent opacity={0.32} />
+      </mesh>
+      <mesh ref={r3}>
+        <torusGeometry args={[1.1, 0.025, 8, 80]} />
+        <meshBasicMaterial color="#22d3ee" transparent opacity={0.38} />
+      </mesh>
+    </group>
+  )
+}
+
+// ── Canvas ─────────────────────────────────────────────────────────────────
 export default function GlobalBackground() {
   const scrollRef = useRef(0)
 
@@ -147,7 +150,7 @@ export default function GlobalBackground() {
 
   return (
     <Canvas
-      camera={{ position: [0, 1.8, 6], fov: 68 }}
+      camera={{ position: [0, 0, 9], fov: 62 }}
       style={{
         position: 'fixed',
         inset: 0,
@@ -156,7 +159,11 @@ export default function GlobalBackground() {
       }}
       dpr={[1, 1.5]}
     >
-      <LiquidField scrollRef={scrollRef} />
+      <CameraRig scrollRef={scrollRef} />
+      <AboutObject />
+      <SkillsObject />
+      <WorkObject />
+      <ContactObject />
     </Canvas>
   )
 }
