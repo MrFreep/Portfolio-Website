@@ -6,6 +6,7 @@
   max-width: 1200px;
   margin: 0 auto;
   overflow: hidden;
+  isolation: isolate;   /* own stacking context — canvas z-0, content z-1+ */
 }
 
 .heading {
@@ -68,6 +69,8 @@
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
+  position: relative;
+  z-index: 2;
 }
 
 .rowOdd {
@@ -194,6 +197,12 @@
   }
   .rowOdd {
     direction: ltr;
+  }
+}
+
+@media (max-width: 640px) {
+  .filters {
+    flex-wrap: nowrap;
   }
 }
 
