@@ -8,6 +8,8 @@
   overflow: hidden;
 }
 
+/* 3D background canvas is rendered via ContactBackground.js */
+
 .heading {
   font-size: clamp(36px, 5vw, 48px);
   font-weight: 700;

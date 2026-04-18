@@ -1,7 +1,7 @@
 export const projects = [
   {
     id: 'project-one',
-    title: 'Project One',
+    title: 'FreepLink',
     description: 'A full-stack web application built with React and Node.js. Add your real description here.',
     tech: ['React', 'Node', 'MongoDB'],
     image: '/projects/project-one.png',

@@ -8,103 +8,153 @@
   overflow: hidden;
 }
 
+/* Circuit board grid background */
+.skills::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: circuitDrift 30s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Glowing blobs layered over the grid */
+.skills::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 30% at 15% 40%, rgba(34, 211, 238, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 25% at 85% 65%, rgba(249, 115, 22, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 50% 10%, rgba(34, 211, 238, 0.05) 0%, transparent 70%);
+  animation: circuitGlow 8s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes circuitDrift {
+  from { background-position: 0 0; }
+  to   { background-position: 48px 48px; }
+}
+
+@keyframes circuitGlow {
+  from { opacity: 0.6; }
+  to   { opacity: 1; }
+}
+
+/* ─── Heading ─────────────────────────────────────────── */
+
 .heading {
   font-size: clamp(36px, 5vw, 48px);
   font-weight: 700;
   color: var(--fg);
-  margin-bottom: 64px;
+  margin-bottom: 56px;
   letter-spacing: -0.02em;
   position: relative;
   z-index: 1;
 }
 
-.categories {
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
+/* ─── Flat skill grid ─────────────────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 14px;
   position: relative;
   z-index: 1;
 }
 
-.category {}
-
-.categoryName {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--accent-cyan);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-bottom: 20px;
-}
-
-.items {
+.skillCard {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.skillItem {
-  position: relative;
-  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  padding: 12px 20px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--fg-muted);
-  transition: color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.skillItem:hover {
-  color: var(--fg);
-  box-shadow: 0 0 16px rgba(34, 211, 238, 0.15);
-}
-
-.skillIcon {
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.skillBadge {
-  padding: 8px 16px;
-  border-radius: 9999px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--fg-muted);
+  padding: 26px 14px 20px;
+  border-radius: 14px;
   background: var(--surface);
   border: 1px solid var(--border);
-  transition: color 0.2s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: center;
+  cursor: default;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.skillBadge:hover {
+.skillCard:hover {
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.45),
+    0 0 28px color-mix(in srgb, var(--icon-color) 20%, transparent);
+  border-color: color-mix(in srgb, var(--icon-color) 35%, transparent);
+}
+
+.iconWrap {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  transition: transform 0.25s ease;
+}
+
+.skillCard:hover .iconWrap {
+  transform: scale(1.15);
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
   color: var(--fg);
+  line-height: 1.2;
 }
 
-.tooltip {
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--bg-elevated);
-  color: var(--fg);
-  font-size: 12px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  white-space: nowrap;
-  pointer-events: none;
-  border: 1px solid var(--border);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  z-index: 10;
+.category {
+  font-size: 10px;
+  color: var(--fg-muted);
+  opacity: 0.55;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
-.skillItem:hover .tooltip {
-  opacity: 1;
+/* ─── Text icon (for skills with no brand logo) ───────── */
+
+.textIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  border: 1.5px solid;
+  font-size: 11px;
+  font-weight: 800;
+  font-family: var(--font-geist-mono), monospace;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+/* ─── Responsive ──────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
 }
 
 @media (max-width: 480px) {
   .skills {
     padding: 80px 24px;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  .skillCard {
+    padding: 20px 10px 16px;
   }
 }

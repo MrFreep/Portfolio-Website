@@ -2,12 +2,15 @@
 'use client'
 import { useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
+import dynamic from 'next/dynamic'
 import emailjs from '@emailjs/browser'
 import { SiGithub } from 'react-icons/si'
 import { FaLinkedin } from 'react-icons/fa'
 import useTextScramble from '../../hooks/useTextScramble'
 import useMagneticButton from '../../hooks/useMagneticButton'
 import styles from './contact.module.css'
+
+const ContactBackground = dynamic(() => import('./ContactBackground'), { ssr: false })
 
 const YOUR_EMAIL = 'james.keenan3403@gmail.com'
 const YOUR_GITHUB = 'https://github.com/jkeenan3403'
@@ -18,7 +21,7 @@ export default function Contact() {
   const sectionRef = useRef(null)
   const [status, setStatus] = useState('idle')
   const [copyLabel, setCopyLabel] = useState('Copy')
-  const isInView = useInView(sectionRef, { once: true, margin: '-200px' })
+  const isInView = useInView(sectionRef, { once: false, margin: '-200px' })
   const headingText = useTextScramble("Let's Talk", isInView)
   const submitMagnetic = useMagneticButton(0.2)
 
@@ -53,12 +56,13 @@ export default function Contact() {
 
   return (
     <section id="contact" className={styles.contact} ref={sectionRef}>
+      <ContactBackground />
       <span className="section-number" aria-hidden="true">04</span>
 
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-150px' }}
+        viewport={{ once: false, margin: '-150px' }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
         <h2 className={styles.heading}>{headingText}</h2>
