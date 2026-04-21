@@ -5,7 +5,7 @@ import ScrollProgress from '../components/UI/ScrollProgress'
 import CustomCursor from '../components/UI/CustomCursor'
 import PageLoader from '../components/UI/PageLoader'
 import EasterEgg from '../components/UI/EasterEgg'
-import GlobalBackgroundLoader from '../components/UI/GlobalBackgroundLoader'
+import CinematicIntro from '../components/UI/CinematicIntro'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
@@ -19,13 +19,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {/* Unified liquid 3D background — one canvas behind the whole page */}
-        <GlobalBackgroundLoader />
         {/* Ambient background glows */}
         <div className="ambient-glow ambient-glow-cyan" aria-hidden="true" />
         <div className="ambient-glow ambient-glow-orange" aria-hidden="true" />
 
         <PageLoader />
+        <CinematicIntro />
         <EasterEgg />
         <CustomCursor />
         <ScrollProgress />
