@@ -200,6 +200,7 @@ function LensFlare({ settleStartRef }) {
     // Only active during SETTLE — settleStartRef.current is set when SETTLE begins
     if (settleStartRef.current === null) {
       meshRef.current.visible = false
+      sweepStart.current = null
       return
     }
 
