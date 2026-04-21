@@ -40,7 +40,7 @@ describe('CinematicIntro', () => {
     window.removeEventListener('cinematic-done', () => {})
   })
 
-  it('fires cinematic-done immediately on mobile', () => {
+  it('fires cinematic-done immediately on mobile', async () => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: jest.fn().mockReturnValue({ matches: true }),
@@ -50,6 +50,6 @@ describe('CinematicIntro', () => {
     window.addEventListener('cinematic-done', () => fired.push(true))
 
     render(<CinematicIntro />)
-    expect(fired.length).toBe(1)
+    await waitFor(() => expect(fired.length).toBe(1))
   })
 })

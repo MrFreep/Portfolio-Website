@@ -12,7 +12,7 @@ export default function CinematicIntro() {
   useEffect(() => {
     // Skip on touch/mobile devices — fire cinematic-done immediately
     if (window.matchMedia('(pointer: coarse)').matches) {
-      window.dispatchEvent(new CustomEvent('cinematic-done'))
+      setTimeout(() => window.dispatchEvent(new CustomEvent('cinematic-done')), 0)
       return
     }
 
