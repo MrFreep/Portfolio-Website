@@ -40,7 +40,7 @@ export default function PageLoader({ onComplete }) {
   }, [])
 
   return (
-    <AnimatePresence>
+    <AnimatePresence onExitComplete={() => window.dispatchEvent(new CustomEvent('cinematic-start'))}>
       {!done && (
         <motion.div
           role="status"
