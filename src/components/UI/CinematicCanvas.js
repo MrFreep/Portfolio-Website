@@ -188,6 +188,58 @@ function WarpField({ onDone, settleStartRef }) {
   )
 }
 
+function LensFlare({ settleStartRef }) {
+  const meshRef       = useRef()
+  const tex           = useStarTexture()
+  const sweepStart    = useRef(null)
+  const posArr        = useMemo(() => new Float32Array([0, 0, 2]), [])
+
+  useFrame(({ clock }) => {
+    if (!meshRef.current) return
+
+    // Only active during SETTLE — settleStartRef.current is set when SETTLE begins
+    if (settleStartRef.current === null) {
+      meshRef.current.visible = false
+      return
+    }
+
+    if (sweepStart.current === null) {
+      sweepStart.current = clock.elapsedTime
+    }
+
+    const elapsed  = clock.elapsedTime - sweepStart.current
+    const progress = Math.min(elapsed / 1.4, 1)
+    const x        = -15 + progress * 30
+
+    meshRef.current.position.set(x, 0, 2)
+    meshRef.current.visible = progress < 1.0
+  })
+
+  return (
+    <points ref={meshRef} visible={false}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={1}
+          array={posArr}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={3.0}
+        color="#ffffff"
+        transparent
+        opacity={1}
+        sizeAttenuation
+        map={tex}
+        alphaMap={tex}
+        alphaTest={0.004}
+        depthWrite={false}
+      />
+    </points>
+  )
+}
+
 export default function CinematicCanvas({ onDone }) {
   const settleStartRef = useRef(null)
 
@@ -198,6 +250,7 @@ export default function CinematicCanvas({ onDone }) {
       dpr={[1, 2]}
     >
       <WarpField onDone={onDone} settleStartRef={settleStartRef} />
+      <LensFlare settleStartRef={settleStartRef} />
       <EffectComposer>
         <Bloom
           intensity={3.0}
