@@ -6,7 +6,14 @@ import dynamic from 'next/dynamic'
 import useMagneticButton from '../../hooks/useMagneticButton'
 import styles from './hero.module.css'
 
-const ParticleField = dynamic(() => import('./ParticleField'), { ssr: false })
+const StarBackground = dynamic(
+  () => import('./ParticleField').then(m => ({ default: m.StarBackground })),
+  { ssr: false }
+)
+const StarForeground = dynamic(
+  () => import('./ParticleField').then(m => ({ default: m.StarForeground })),
+  { ssr: false }
+)
 
 const ROLES = ['Software Engineer', 'Full-Stack Developer', 'Problem Solver']
 
@@ -45,7 +52,7 @@ function useTypewriter(words, speed = 100, deleteSpeed = 50, pauseTime = 2000) {
   return displayText
 }
 
-function AnimatedName({ name }) {
+function AnimatedName({ name, ready }) {
   const letters = name.split('')
   return (
     <h1 className={styles.name} aria-label={name}>
@@ -53,7 +60,7 @@ function AnimatedName({ name }) {
         <motion.span
           key={i}
           initial={{ opacity: 0, y: 60, rotateX: -90 }}
-          animate={{ opacity: 1, y: 0, rotateX: 0 }}
+          animate={ready ? { opacity: 1, y: 0, rotateX: 0 } : { opacity: 0, y: 60, rotateX: -90 }}
           transition={{
             type: 'spring',
             stiffness: 200,
@@ -70,53 +77,45 @@ function AnimatedName({ name }) {
 }
 
 export default function Hero() {
-  const typewriterText = useTypewriter(ROLES)
-  const [spotlight, setSpotlight] = useState({ x: 50, y: 50 })
-  const primaryMagnetic = useMagneticButton(0.3)
-  const outlineMagnetic = useMagneticButton(0.3)
-  const { scrollY } = useScroll()
-  const [isTouch] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
-  )
-  const canvasY = useTransform(scrollY, [0, 800], [0, -240])
+  const typewriterText  = useTypewriter(ROLES)
+  const [introReady, setIntroReady] = useState(false)
+  const primaryMagnetic  = useMagneticButton(0.3)
+  const outlineMagnetic  = useMagneticButton(0.3)
+  const { scrollY }     = useScroll()
+  const heroH           = typeof window !== 'undefined' ? window.innerHeight : 800
 
-  function handleMouseMove(e) {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width) * 100
-    const y = ((e.clientY - rect.top) / rect.height) * 100
-    setSpotlight({ x, y })
-  }
+  const fgStart   = heroH * 0.15
+  const fgOpacity = useTransform(scrollY, [fgStart, fgStart + heroH * 6.5], [1, 0])
+
+  useEffect(() => {
+    function onDone() { setIntroReady(true) }
+    window.addEventListener('cinematic-done', onDone)
+    return () => window.removeEventListener('cinematic-done', onDone)
+  }, [])
 
   return (
     <section
       id="home"
       className={styles.hero}
-      onMouseMove={handleMouseMove}
     >
-      {/* Particle field with parallax scroll */}
-      <motion.div
-        className={styles.canvas}
-        style={{ y: isTouch ? 0 : canvasY }}
-      >
-        <ParticleField />
-      </motion.div>
+      {/* Small stars — fixed, always visible behind all sections site-wide */}
+      <div className={styles.canvasBg}>
+        <StarBackground />
+      </div>
 
-      {/* Spotlight effect */}
-      <div
-        className={styles.spotlight}
-        style={{
-          background: `radial-gradient(600px circle at ${spotlight.x}% ${spotlight.y}%, rgba(34, 211, 238, 0.07), transparent 50%)`,
-        }}
-      />
+      {/* Large stars + asteroids — home page only, floats above hero content */}
+      <motion.div className={styles.canvasFg} style={{ opacity: fgOpacity }}>
+        <StarForeground />
+      </motion.div>
 
       {/* Hero content */}
       <div className={styles.content}>
-        <AnimatedName name="James Keenan" />
+        <AnimatedName name="James Keenan" ready={introReady} />
 
         <motion.div
           className={styles.typewriterWrapper}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={{ opacity: introReady ? 1 : 0 }}
           transition={{ delay: 1.6 }}
         >
           <span>{typewriterText}</span>
@@ -126,7 +125,7 @@ export default function Hero() {
         <motion.p
           className={styles.tagline}
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={introReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 1.9, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           Building modern web experiences with clean code and purposeful design.
@@ -135,7 +134,7 @@ export default function Hero() {
         <motion.div
           className={styles.buttons}
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={introReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 2.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           <motion.a
