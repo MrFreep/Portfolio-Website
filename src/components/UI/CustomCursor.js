@@ -5,7 +5,7 @@ import { motion, useMotionValue, useSpring } from 'framer-motion'
 
 const CURSOR_VARIANTS = {
   default: { width: 16, height: 16, backgroundColor: 'var(--accent-cyan)', opacity: 0.8 },
-  link:    { width: 32, height: 32, backgroundColor: 'transparent', border: '2px solid var(--accent-cyan)', opacity: 1 },
+  link:    { width: 24, height: 24, backgroundColor: 'transparent', border: '2px solid var(--accent-cyan)', opacity: 1 },
   button:  { width: 12, height: 12, backgroundColor: 'var(--accent-orange)', opacity: 1 },
   clicked: { width: 8, height: 8, backgroundColor: 'var(--accent-cyan)', opacity: 1 },
 }
@@ -64,7 +64,7 @@ export default function CustomCursor() {
       aria-hidden="true"
       animate={variant}
       variants={CURSOR_VARIANTS}
-      transition={{ type: 'spring', stiffness: 500, damping: 40 }}
+      transition={{ type: 'spring', stiffness: 80, damping: 12 }}
       style={{
         position: 'fixed',
         left: springX,

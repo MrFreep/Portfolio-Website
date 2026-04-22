@@ -4,8 +4,8 @@
 :root {
   --bg-base:       #0d0a08;
   --bg-elevated:   #1a1410;
-  --surface:       color-mix(in oklab, #3d2d22 50%, transparent);
-  --surface-hover: color-mix(in oklab, #4a3828 60%, transparent);
+  --surface:       color-mix(in oklab, #3d2d22 88%, transparent);
+  --surface-hover: color-mix(in oklab, #4a3828 92%, transparent);
   --border:        rgba(255, 255, 255, 0.08);
   --fg:            #fefcfb;
   --fg-muted:      #c4b5a8;

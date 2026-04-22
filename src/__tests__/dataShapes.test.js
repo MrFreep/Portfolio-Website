@@ -45,8 +45,8 @@ describe('skills data', () => {
         if (item.icon !== null && item.icon !== undefined) {
           expect(typeof item.icon).toBe('function')
         }
-        // icon and color should either both be null or both be non-null
-        expect(item.icon === null).toBe(item.color === null)
+        // color is always required (used for TextIcon when icon is null)
+        expect(item.color).toBeTruthy()
       })
     })
   })

@@ -14,7 +14,8 @@
   gap: 80px;
   align-items: center;
   position: relative;
-  z-index: 1;
+  /* No z-index here — setting one would create a stacking context that caps
+     the photo wrapper below the foreground star canvas (z-index: 10) */
 }
 
 .heading {
@@ -42,6 +43,9 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
 }
 
 .currentlyDot {
@@ -73,6 +77,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  /* Root-level z-index above the foreground star canvas (z-index: 10) */
+  position: relative;
+  z-index: 11;
 }
 
 .photo {
@@ -96,6 +103,9 @@
 .counter {
   padding: 28px 20px;
   text-align: center;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
 }
 
 .counterNumber {

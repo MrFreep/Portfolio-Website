@@ -11,19 +11,22 @@
   text-align: center;
 }
 
-.canvas {
-  position: absolute;
+/* Small background stars — behind all page content */
+.canvasBg {
+  position: fixed;
   inset: 0;
   z-index: 0;
+  pointer-events: none;
 }
 
-.spotlight {
-  position: absolute;
+/* Large foreground stars + asteroids — above hero content, space-depth effect */
+.canvasFg {
+  position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 10;
   pointer-events: none;
-  transition: background 0.1s ease;
 }
+
 
 .content {
   position: relative;
@@ -45,13 +48,14 @@
     var(--accent-cyan),
     var(--accent-orange),
     var(--fg),
+    var(--accent-orange),
     var(--accent-cyan)
   );
-  background-size: 300% 100%;
+  background-size: 400% 100%;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  animation: gradientFlow 6s linear infinite;
+  animation: gradientFlow 5s ease-in-out infinite alternate;
 }
 
 @keyframes gradientFlow {

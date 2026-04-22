@@ -4,6 +4,11 @@ import Lenis from 'lenis'
 
 export default function SmoothScroll({ children }) {
   useEffect(() => {
+    history.scrollRestoration = 'manual'
+    window.scrollTo(0, 0)
+  }, [])
+
+  useEffect(() => {
     const isTouch = window.matchMedia('(pointer: coarse)').matches
     if (isTouch) return
 
