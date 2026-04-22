@@ -4,7 +4,7 @@
 
 Two changes to improve the page's cinematic feel after the Light Burst intro:
 1. Header opening animation: drop from above with simultaneous blur reveal
-2. Section scroll transitions: standardise all section entrances to blur reveal
+2. Section scroll transitions: standardise all section entrances to blur reveal + fade up
 
 ---
 
@@ -30,39 +30,39 @@ transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 1.4 }}
 
 ---
 
-## Scroll Transitions — Blur Reveal
+## Scroll Transitions — Blur Reveal + Fade Up
 
-Standardise all section entrance animations to blur reveal: `blur(16px) opacity:0 → blur(0) opacity:1`. Applied at the content wrapper level inside each section. Duration: 0.9s, ease: `[0.16, 1, 0.3, 1]`.
+Standardise all section entrance animations to blur reveal combined with a fade up: `blur(16px) opacity:0 y:30 → blur(0) opacity:1 y:0`. Applied at the content wrapper level inside each section. Duration: 0.9s, ease: `[0.16, 1, 0.3, 1]`.
 
 ### About (`src/components/About/About.js`)
 
 **Current:** bio slides from left (`x: -40`), photo slides from right (`x: 40`), duration 0.7s.
 
-**New:** both elements use blur reveal instead, staggered:
-- Bio: `initial={{ opacity: 0, filter: 'blur(16px)' }}`, `whileInView={{ opacity: 1, filter: 'blur(0px)' }}`, delay 0s
+**New:** both elements use blur reveal + fade up, staggered:
+- Bio: `initial={{ opacity: 0, filter: 'blur(16px)', y: 30 }}`, `whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}`, delay 0s
 - Photo: same, delay 0.15s
 
 Remove `x` from both `initial` and `whileInView`. Keep `viewport`, `once: false, margin: '-150px'`. Keep parallax `y` spring on both wrappers — that runs independently and is unaffected.
 
-Counter items (`CounterItem`): change `initial={{ opacity: 0, y: 30 }}` → `initial={{ opacity: 0, filter: 'blur(10px)' }}`, `whileInView={{ opacity: 1, filter: 'blur(0px)' }}`.
+Counter items (`CounterItem`): change `initial={{ opacity: 0, y: 30 }}` → `initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}`, `whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}`.
 
 ### Skills (`src/components/Skills/Skills.js`)
 
 **Current:** `SkillCard` uses `initial={{ opacity: 0, y: 24 }}`.
 
-**New:** `initial={{ opacity: 0, filter: 'blur(8px)' }}`, `whileInView={{ opacity: 1, filter: 'blur(0px)' }}`. Duration 0.5s (fast — many cards). Keep stagger delay (`index * 0.035`). Keep `whileHover`.
+**New:** `initial={{ opacity: 0, filter: 'blur(8px)', y: 16 }}`, `whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}`. Duration 0.5s (fast — many cards). Keep stagger delay (`index * 0.035`). Keep `whileHover`.
 
 ### Work (`src/components/Work/Work.js`)
 
-No section-level entrance animation currently. Add a blur reveal wrapper around the heading + filters only (NOT around project rows — those have their own `AnimatePresence` layout animations for filter switching, which must not be touched).
+No section-level entrance animation currently. Add blur reveal + fade up to the heading and filters bar only (NOT to project rows — those have their own `AnimatePresence` layout animations for filter switching, which must not be touched).
 
 Add to the `<h2>` and filter `<div>` individually:
 ```js
 // heading
 <motion.h2
   className={styles.heading}
-  initial={{ opacity: 0, filter: 'blur(16px)' }}
-  whileInView={{ opacity: 1, filter: 'blur(0px)' }}
+  initial={{ opacity: 0, filter: 'blur(16px)', y: 30 }}
+  whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
   viewport={{ once: false, margin: '-150px' }}
   transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
 >
@@ -72,8 +72,8 @@ Add to the `<h2>` and filter `<div>` individually:
 // filters bar
 <motion.div
   className={styles.filters}
-  initial={{ opacity: 0, filter: 'blur(12px)' }}
-  whileInView={{ opacity: 1, filter: 'blur(0px)' }}
+  initial={{ opacity: 0, filter: 'blur(12px)', y: 20 }}
+  whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
   viewport={{ once: false, margin: '-150px' }}
   transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
   role="group"
@@ -85,7 +85,7 @@ Add to the `<h2>` and filter `<div>` individually:
 
 **Current:** outer `motion.div` uses `initial={{ opacity: 0, y: 40 }}`.
 
-**New:** change to `initial={{ opacity: 0, filter: 'blur(16px)' }}`, `whileInView={{ opacity: 1, filter: 'blur(0px)' }}`. Duration 0.9s. Remove `y: 40`.
+**New:** change to `initial={{ opacity: 0, filter: 'blur(16px)', y: 30 }}`, `whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}`. Duration 0.9s.
 
 ---
 
@@ -106,7 +106,7 @@ Add to the `<h2>` and filter `<div>` individually:
 | File | Change |
 |------|--------|
 | `src/components/Header/Header.js` | `x: -80` → `y: -72, filter: blur(8px)` on initial/animate |
-| `src/components/About/About.js` | Bio + photo: `x: ±40` → `filter: blur(16px)`. Counter items: `y: 30` → `filter: blur(10px)` |
-| `src/components/Skills/Skills.js` | SkillCard: `y: 24` → `filter: blur(8px)` |
-| `src/components/Work/Work.js` | Add blur reveal to `<h2>` and filters `<div>` |
-| `src/components/Contact/Contact.js` | Outer wrapper: `y: 40` → `filter: blur(16px)` |
+| `src/components/About/About.js` | Bio + photo: `x: ±40` → `filter: blur(16px) + y: 30`. Counter items: add `filter: blur(10px)` |
+| `src/components/Skills/Skills.js` | SkillCard: `y: 24` → `filter: blur(8px) + y: 16` |
+| `src/components/Work/Work.js` | Add blur reveal + fade up to `<h2>` and filters `<div>` |
+| `src/components/Contact/Contact.js` | Outer wrapper: `y: 40` → `filter: blur(16px) + y: 30` |
