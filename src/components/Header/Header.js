@@ -22,7 +22,7 @@ export default function Header() {
 
   useEffect(() => {
     const isMobile = window.matchMedia('(pointer: coarse)').matches
-    const delay    = isMobile ? 600 : 2800
+    const delay    = isMobile ? 400 : 2000
     const id       = setTimeout(() => setReady(true), delay)
     return () => clearTimeout(id)
   }, [])
@@ -66,7 +66,7 @@ export default function Header() {
         className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}
         initial={{ y: -72, opacity: 0, filter: 'blur(8px)' }}
         animate={ready ? { y: 0, opacity: 1, filter: 'blur(0px)' } : { y: -72, opacity: 0, filter: 'blur(8px)' }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 1.4 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
         <a
           href="#home"
