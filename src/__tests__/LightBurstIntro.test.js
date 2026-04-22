@@ -7,7 +7,7 @@ describe('LightBurstIntro', () => {
     jest.useFakeTimers()
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: jest.fn().mockReturnValue({ matches: false }), // desktop
+      value: jest.fn().mockReturnValue({ matches: false, addEventListener: jest.fn(), removeEventListener: jest.fn() }),
     })
   })
 
@@ -15,9 +15,9 @@ describe('LightBurstIntro', () => {
     jest.useRealTimers()
   })
 
-  it('renders the burst overlay on desktop', () => {
+  it('renders the burst overlay on desktop', async () => {
     const { container } = render(<LightBurstIntro />)
-    act(() => {})
+    await act(async () => {})
     expect(container.firstChild).not.toBeNull()
   })
 
@@ -27,13 +27,13 @@ describe('LightBurstIntro', () => {
     expect(container.firstChild).toBeNull()
   })
 
-  it('does not render on mobile (pointer: coarse)', () => {
+  it('does not render on mobile (pointer: coarse)', async () => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: jest.fn().mockReturnValue({ matches: true }),
+      value: jest.fn().mockReturnValue({ matches: true, addEventListener: jest.fn(), removeEventListener: jest.fn() }),
     })
     const { container } = render(<LightBurstIntro />)
-    act(() => {})
+    await act(async () => {})
     expect(container.firstChild).toBeNull()
   })
 })
