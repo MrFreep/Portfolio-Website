@@ -26,10 +26,10 @@ function CounterItem({ target, suffix, label }) {
     <motion.div
       ref={ref}
       className={`${styles.counter} glass`}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
+      whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
       viewport={{ once: false, margin: '-100px' }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
       <span className={styles.counterNumber}>{count}{suffix}</span>
       <span className={styles.counterLabel}>{label}</span>
@@ -59,10 +59,10 @@ export default function About() {
         <motion.div
           className={styles.bio}
           style={{ y: bioY }}
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, filter: 'blur(16px)', y: 30 }}
+          whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
           viewport={{ once: false, margin: '-150px' }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
           <h2 className={styles.heading}>{headingText}</h2>
 
@@ -91,10 +91,10 @@ export default function About() {
         <motion.div
           className={styles.photoWrapper}
           style={{ y: photoY }}
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, filter: 'blur(16px)', y: 30 }}
+          whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
           viewport={{ once: false, margin: '-150px' }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
         >
           <Image
             src="/Profile.jpg"

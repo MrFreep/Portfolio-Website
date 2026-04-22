@@ -27,11 +27,11 @@ function SkillCard({ item, index }) {
     <motion.div
       className={styles.skillCard}
       style={{ '--icon-color': iconColor }}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, filter: 'blur(8px)', y: 16 }}
+      whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
       whileHover={{ y: -5, transition: { duration: 0.18 } }}
       viewport={{ once: false, margin: '-40px' }}
-      transition={{ duration: 0.4, delay: index * 0.035, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.5, delay: index * 0.035, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className={styles.iconWrap}>
         {Icon

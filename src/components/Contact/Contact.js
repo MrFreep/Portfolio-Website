@@ -56,10 +56,10 @@ export default function Contact() {
       <span className="section-number" aria-hidden="true">04</span>
 
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, filter: 'blur(16px)', y: 30 }}
+        whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
         viewport={{ once: false, margin: '-150px' }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
       >
         <h2 className={styles.heading}>{headingText}</h2>
         <p className={styles.subheading}>

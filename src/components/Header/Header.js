@@ -64,8 +64,8 @@ export default function Header() {
     <>
       <motion.header
         className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}
-        initial={{ x: -80, opacity: 0 }}
-        animate={ready ? { x: 0, opacity: 1 } : { x: -80, opacity: 0 }}
+        initial={{ y: -72, opacity: 0, filter: 'blur(8px)' }}
+        animate={ready ? { y: 0, opacity: 1, filter: 'blur(0px)' } : { y: -72, opacity: 0, filter: 'blur(8px)' }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 1.4 }}
       >
         <a

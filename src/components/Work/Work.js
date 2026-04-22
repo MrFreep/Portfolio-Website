@@ -32,9 +32,25 @@ export default function Work() {
     <section id="work" className={styles.work} ref={ref}>
       <span className="section-number" aria-hidden="true">03</span>
 
-      <h2 className={styles.heading}>{headingText}</h2>
+      <motion.h2
+        className={styles.heading}
+        initial={{ opacity: 0, filter: 'blur(16px)', y: 30 }}
+        whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+        viewport={{ once: false, margin: '-150px' }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {headingText}
+      </motion.h2>
 
-      <div className={styles.filters} role="group" aria-label="Filter projects by technology">
+      <motion.div
+        className={styles.filters}
+        initial={{ opacity: 0, filter: 'blur(12px)', y: 20 }}
+        whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+        viewport={{ once: false, margin: '-150px' }}
+        transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        role="group"
+        aria-label="Filter projects by technology"
+      >
         {filterTags.map(tag => (
           <button
             key={tag}
@@ -45,7 +61,7 @@ export default function Work() {
             {tag}
           </button>
         ))}
-      </div>
+      </motion.div>
 
       <LayoutGroup>
         <motion.div className={styles.projects} layout>
