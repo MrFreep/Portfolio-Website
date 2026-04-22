@@ -73,7 +73,14 @@ export default function Hero() {
   const primaryMagnetic = useMagneticButton(0.3)
   const outlineMagnetic = useMagneticButton(0.3)
   const { scrollY }     = useScroll()
-  const heroH           = typeof window !== 'undefined' ? window.innerHeight : 800
+  const [heroH, setHeroH] = useState(800)
+
+  useEffect(() => {
+    setHeroH(window.innerHeight)
+    const onResize = () => setHeroH(window.innerHeight)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   const fgStart   = heroH * 0.15
   const fgOpacity = useTransform(scrollY, [fgStart, fgStart + heroH * 6.5], [1, 0])
@@ -89,15 +96,16 @@ export default function Hero() {
 
       {/* Foreground stars — bright + asteroids, appears after burst */}
       {showFg && (
-        <motion.div
-          className={styles.canvasFg}
-          style={{ opacity: fgOpacity }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, ease: 'easeIn' }}
-        >
-          <StarForeground />
-        </motion.div>
+        <div className={styles.canvasFg} style={{ opacity: fgOpacity }}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5, ease: 'easeIn' }}
+            style={{ width: '100%', height: '100%' }}
+          >
+            <StarForeground />
+          </motion.div>
+        </div>
       )}
 
       <div className={styles.content}>
