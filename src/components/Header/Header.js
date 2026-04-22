@@ -17,7 +17,15 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const [ready, setReady] = useState(false)
   const resumeMagnetic = useMagneticButton(0.3)
+
+  useEffect(() => {
+    const isMobile = window.matchMedia('(pointer: coarse)').matches
+    const delay    = isMobile ? 600 : 2800
+    const id       = setTimeout(() => setReady(true), delay)
+    return () => clearTimeout(id)
+  }, [])
 
   useEffect(() => {
     function handleScroll() {
@@ -54,7 +62,12 @@ export default function Header() {
 
   return (
     <>
-      <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
+      <motion.header
+        className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}
+        initial={{ x: -80, opacity: 0 }}
+        animate={ready ? { x: 0, opacity: 1 } : { x: -80, opacity: 0 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 1.4 }}
+      >
         <a
           href="#home"
           className={styles.logo}
@@ -98,7 +111,7 @@ export default function Header() {
           <span className={styles.hamburgerLine} />
           <span className={styles.hamburgerLine} />
         </button>
-      </header>
+      </motion.header>
 
       {/* Mobile overlay */}
       <AnimatePresence>
