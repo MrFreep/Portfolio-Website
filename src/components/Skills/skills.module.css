@@ -77,12 +77,15 @@
   padding: 26px 14px 20px;
   border-radius: 14px;
   background: var(--surface);
-  border: 1px solid rgba(34, 211, 238, 0.15);
+  border: 1px solid rgba(34, 211, 238, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   text-align: center;
   cursor: default;
-  box-shadow: 0 0 24px rgba(34, 211, 238, 0.1);
+  box-shadow:
+    0 0 6px rgba(34, 211, 238, 0.75),
+    0 0 18px rgba(34, 211, 238, 0.4),
+    0 0 40px rgba(34, 211, 238, 0.15);
   transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
