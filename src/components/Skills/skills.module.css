@@ -77,16 +77,15 @@
   padding: 26px 14px 20px;
   border-radius: 14px;
   background: var(--bg-elevated);
-  border: 1px solid rgba(249, 115, 22, 0.35);
+  border: 1px solid rgba(34, 211, 238, 0.12);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   text-align: center;
   cursor: default;
   box-shadow:
-    0 0 20px rgba(249, 115, 22, 0.1),
-    0 0 60px rgba(249, 115, 22, 0.05),
-    0 0 120px rgba(249, 115, 22, 0.025),
-    0 0 200px rgba(249, 115, 22, 0.01);
+    0 0 50px rgba(34, 211, 238, 0.07),
+    0 0 120px rgba(34, 211, 238, 0.04),
+    0 0 250px rgba(34, 211, 238, 0.02);
   transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
