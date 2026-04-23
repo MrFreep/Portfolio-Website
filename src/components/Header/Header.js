@@ -22,7 +22,7 @@ export default function Header() {
 
   useEffect(() => {
     const isMobile = window.matchMedia('(pointer: coarse)').matches
-    const delay    = isMobile ? 400 : 2000
+    const delay    = isMobile ? 400 : 1500
     const id       = setTimeout(() => setReady(true), delay)
     return () => clearTimeout(id)
   }, [])
