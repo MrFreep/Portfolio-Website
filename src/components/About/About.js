@@ -1,38 +1,43 @@
 // src/components/About/About.js
 'use client'
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import { motion, useInView, useScroll, useTransform, useSpring } from 'framer-motion'
+import { FaCode, FaCheckCircle, FaHammer } from 'react-icons/fa'
 import Image from 'next/image'
-import useAnimatedCounter from '../../hooks/useAnimatedCounter'
 import useTextScramble from '../../hooks/useTextScramble'
 import styles from './about.module.css'
 
-const COUNTERS = [
-  { target: 3,  suffix: '+', label: 'Projects Built' },
-  { target: 15, suffix: '+', label: 'Technologies' },
-  { target: 1,  suffix: '+', label: 'Years Experience' },
+const PILLARS = [
+  {
+    icon: FaCode,
+    title: 'Full-Stack Thinking',
+    text: 'Comfortable across the whole stack — React UIs, REST APIs, and database design.',
+  },
+  {
+    icon: FaCheckCircle,
+    title: 'Clean, Tested Code',
+    text: 'Readable and maintainable, backed by tests with Jest and Supertest.',
+  },
+  {
+    icon: FaHammer,
+    title: "Builder's Mindset",
+    text: 'From first commit to shipped product — I love the whole process of making things.',
+  },
 ]
 
-function CounterItem({ target, suffix, label }) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: false, margin: '-100px' })
-  const { count, start } = useAnimatedCounter(target, 1500)
-
-  useEffect(() => {
-    if (isInView) start()
-  }, [isInView]) // eslint-disable-line react-hooks/exhaustive-deps
-
+function PillarCard({ item, index }) {
+  const Icon = item.icon
   return (
     <motion.div
-      ref={ref}
-      className={`${styles.counter} glass`}
+      className={`${styles.pillar} glass`}
       initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
       whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-      viewport={{ once: false, margin: '-100px' }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: false, margin: '-80px' }}
+      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
     >
-      <span className={styles.counterNumber}>{count}{suffix}</span>
-      <span className={styles.counterLabel}>{label}</span>
+      <Icon className={styles.pillarIcon} aria-hidden="true" />
+      <h4 className={styles.pillarTitle}>{item.title}</h4>
+      <p className={styles.pillarText}>{item.text}</p>
     </motion.div>
   )
 }
@@ -46,8 +51,8 @@ export default function About() {
     target: ref,
     offset: ['start end', 'end start'],
   })
-  const rawPhotoY  = useTransform(scrollYProgress, [0, 1], [-40, 40])
-  const rawBioY    = useTransform(scrollYProgress, [0, 1], [20, -20])
+  const rawPhotoY = useTransform(scrollYProgress, [0, 1], [-40, 40])
+  const rawBioY   = useTransform(scrollYProgress, [0, 1], [20, -20])
   const photoY = useSpring(rawPhotoY, { stiffness: 60, damping: 20 })
   const bioY   = useSpring(rawBioY,   { stiffness: 60, damping: 20 })
 
@@ -67,23 +72,24 @@ export default function About() {
           <h2 className={styles.heading}>{headingText}</h2>
 
           <p>
-            I&apos;m a full-stack software engineer passionate about building things that live on the internet.
-            I care about writing clean, maintainable code and creating experiences that actually feel good to use.
+            I&apos;m a Florida-based full-stack software engineer. Growing up obsessed with video games,
+            I was always fascinated by how things worked under the hood — that curiosity eventually led me
+            to building things on the web.
           </p>
           <p>
-            My background spans the full web stack — from crafting responsive UIs in React to building
-            RESTful APIs with Express and working with both SQL and NoSQL databases. I enjoy the entire process,
-            from designing a system to shipping the final product.
+            My background spans the full stack — crafting responsive UIs in React, building RESTful APIs
+            with Node and Express, and working with both SQL and NoSQL databases. I care about writing
+            clean, maintainable code and creating experiences that feel good to use.
           </p>
           <p>
-            When I&apos;m not coding, I&apos;m exploring new technologies and finding ways to push the boundaries
-            of what&apos;s possible on the web.
+            Outside of code I&apos;m usually building something — 3D printing, modeling in Blender, or
+            tinkering in Unreal Engine. The drive to make things carries into everything I do.
           </p>
 
           <div className={`${styles.currentlyCard} glass`}>
             <span className={styles.currentlyDot} />
             <p className={styles.currentlyText}>
-              <strong>Currently:</strong> Building this portfolio and sharpening my skills in Three.js and animation.
+              <strong>Open to opportunities</strong> — actively looking for full-stack and frontend roles.
             </p>
           </div>
         </motion.div>
@@ -97,7 +103,7 @@ export default function About() {
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
         >
           <Image
-            src="/Profile.jpg"
+            src="/ProfilePic.jpg"
             alt="James Keenan"
             width={320}
             height={380}
@@ -107,9 +113,9 @@ export default function About() {
         </motion.div>
       </div>
 
-      <div className={styles.counters}>
-        {COUNTERS.map(c => (
-          <CounterItem key={c.label} {...c} />
+      <div className={styles.pillars}>
+        {PILLARS.map((item, i) => (
+          <PillarCard key={item.title} item={item} index={i} />
         ))}
       </div>
     </section>
