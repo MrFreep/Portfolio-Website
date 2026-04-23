@@ -105,8 +105,10 @@ export default function About() {
           <Image
             src="/ProfilePic.jpg"
             alt="James Keenan"
-            width={320}
-            height={380}
+            width={640}
+            height={640}
+            quality={95}
+            sizes="(max-width: 768px) 240px, 320px"
             className={styles.photo}
             priority={false}
           />
