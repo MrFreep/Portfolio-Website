@@ -102,15 +102,17 @@ export default function About() {
           viewport={{ once: false, margin: '-150px' }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
         >
-          <Image
-            src="/ProfilePic.jpg"
-            alt="James Keenan"
-            width={640}
-            height={640}
-            unoptimized
-            className={styles.photo}
-            priority
-          />
+          <div className={styles.photoFrame}>
+            <Image
+              src="/ProfilePic.jpg"
+              alt="James Keenan"
+              width={640}
+              height={640}
+              unoptimized
+              className={styles.photo}
+              priority
+            />
+          </div>
         </motion.div>
       </div>
 

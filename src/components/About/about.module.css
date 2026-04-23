@@ -77,18 +77,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Root-level z-index above the foreground star canvas (z-index: 10) */
   position: relative;
   z-index: 11;
 }
 
-.photo {
+.photoFrame {
   width: 320px;
-  height: 380px;
-  object-fit: cover;
+  height: 340px;
+  overflow: hidden;
   border-radius: 16px;
   border: 1px solid var(--border);
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+.photo {
+  width: 320px;
+  height: 420px;
+  object-fit: cover;
+  object-position: center top;
 }
 
 .pillars {
