@@ -137,7 +137,7 @@ export default function Hero() {
           animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
           transition={{ duration: 1.0, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
         >
-          Building modern web experiences with clean code and purposeful design.
+          Give me a problem. I&apos;ll build you a solution.
         </motion.p>
 
         {/* Layer 4 — Buttons */}
