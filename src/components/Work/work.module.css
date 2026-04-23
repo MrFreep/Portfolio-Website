@@ -90,8 +90,8 @@
   position: relative;
   background: var(--bg-elevated);
   border-radius: 12px;
-  border: 1px solid rgba(249, 115, 22, 0.18);
-  box-shadow: 0 0 40px rgba(249, 115, 22, 0.08);
+  border: 1px solid rgba(249, 115, 22, 0.25);
+  box-shadow: 0 0 50px rgba(249, 115, 22, 0.18);
 }
 
 .projectImage {
@@ -123,8 +123,8 @@
   gap: 16px;
   background: var(--bg-elevated);
   border-radius: 12px;
-  border: 1px solid rgba(34, 211, 238, 0.14);
-  box-shadow: 0 0 40px rgba(34, 211, 238, 0.06);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  box-shadow: 0 0 50px rgba(34, 211, 238, 0.14);
   padding: 28px 24px;
 }
 
@@ -154,8 +154,8 @@
   font-weight: 500;
   color: var(--accent-orange);
   background: rgba(249, 115, 22, 0.1);
-  border: 1px solid rgba(249, 115, 22, 0.25);
-  box-shadow: 0 0 12px rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  box-shadow: 0 0 16px rgba(249, 115, 22, 0.22);
 }
 
 .projectLinks {

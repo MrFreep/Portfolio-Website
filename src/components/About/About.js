@@ -71,26 +71,28 @@ export default function About() {
         >
           <h2 className={styles.heading}>{headingText}</h2>
 
-          <p>
-            I&apos;m a Florida-based full-stack software engineer. Growing up obsessed with video games,
-            I was always fascinated by how things worked under the hood. That curiosity eventually led me
-            to building things on the web.
-          </p>
-          <p>
-            My background spans the full stack. Crafting responsive UIs in React, building RESTful APIs
-            with Node and Express, and working with both SQL and NoSQL databases. I care about writing
-            clean, maintainable code and creating experiences that feel good to use.
-          </p>
-          <p>
-            Outside of code I&apos;m usually building something; 3D printing, modeling in Blender, or
-            tinkering in Unreal Engine. The drive to make things carries into everything I do.
-          </p>
-
-          <div className={`${styles.currentlyCard} glass`}>
-            <span className={styles.currentlyDot} />
-            <p className={styles.currentlyText}>
-              <strong>Open to opportunities</strong> — actively looking for full-stack and frontend roles.
+          <div className={`${styles.bioCard} glass`}>
+            <p>
+              I&apos;m a Florida-based full-stack software engineer. Growing up obsessed with video games,
+              I was always fascinated by how things worked under the hood. That curiosity eventually led me
+              to building things on the web.
             </p>
+            <p>
+              My background spans the full stack. Crafting responsive UIs in React, building RESTful APIs
+              with Node and Express, and working with both SQL and NoSQL databases. I care about writing
+              clean, maintainable code and creating experiences that feel good to use.
+            </p>
+            <p>
+              Outside of code I&apos;m usually building something; 3D printing, modeling in Blender, or
+              tinkering in Unreal Engine. The drive to make things carries into everything I do.
+            </p>
+
+            <div className={styles.currentlyRow}>
+              <span className={styles.currentlyDot} />
+              <p className={styles.currentlyText}>
+                <strong>Open to opportunities</strong> — actively looking for full-stack and frontend roles.
+              </p>
+            </div>
           </div>
         </motion.div>
 

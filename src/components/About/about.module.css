@@ -37,6 +37,32 @@
   margin-bottom: 0;
 }
 
+.bioCard {
+  padding: 28px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.bioCard p {
+  color: var(--fg-muted);
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.bioCard p:last-of-type {
+  margin-bottom: 20px;
+}
+
+.currentlyRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(34, 211, 238, 0.1);
+}
+
 .currentlyCard {
   margin-top: 32px;
   padding: 20px 24px;
@@ -47,6 +73,7 @@
   border: 1px solid var(--border);
   border-radius: 12px;
 }
+/* kept for backwards compat — new layout uses .currentlyRow inside .bioCard */
 
 .currentlyDot {
   width: 10px;
@@ -86,8 +113,8 @@
   height: 340px;
   overflow: hidden;
   border-radius: 16px;
-  border: 1px solid rgba(249, 115, 22, 0.2);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), 0 0 40px rgba(249, 115, 22, 0.1);
+  border: 1px solid rgba(249, 115, 22, 0.28);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), 0 0 50px rgba(249, 115, 22, 0.2);
 }
 
 .photo {
