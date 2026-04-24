@@ -90,14 +90,15 @@ export default function Header() {
 
         <motion.a
           ref={resumeMagnetic.ref}
-          href="#contact"
+          href="/resume.pdf"
+          download
           className={styles.resumeBtn}
           style={{ x: resumeMagnetic.springX, y: resumeMagnetic.springY }}
           onMouseMove={resumeMagnetic.handleMouseMove}
           onMouseLeave={resumeMagnetic.handleMouseLeave}
           data-cursor="button"
         >
-          Let's Talk
+          Resume ↓
         </motion.a>
 
         <button
@@ -137,14 +138,15 @@ export default function Header() {
               </motion.a>
             ))}
             <motion.a
-              href="#contact"
+              href="/resume.pdf"
+              download
               className={styles.resumeBtn}
               onClick={handleNavClick}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
             >
-              Let's Talk
+              Download Resume
             </motion.a>
           </motion.nav>
         )}
