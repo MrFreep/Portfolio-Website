@@ -101,7 +101,7 @@ export default function Header() {
 
         <motion.a
           ref={resumeRef}
-          href="/James%20Keenans%20Resume.pdf"
+          href="/James_Keenan_Software_Engineering_Resume_.pdf"
           download="James-Keenan-Resume.pdf"
           className={styles.resumeBtn}
           style={{ x: resumeSpringX, y: resumeSpringY }}
@@ -149,7 +149,7 @@ export default function Header() {
               </motion.a>
             ))}
             <motion.a
-              href="/James%20Keenans%20Resume.pdf"
+              href="/James_Keenan_Software_Engineering_Resume_.pdf"
               download="James-Keenan-Resume.pdf"
               className={styles.resumeBtn}
               onClick={handleNavClick}
