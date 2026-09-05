@@ -2,7 +2,6 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import SmoothScroll    from '../components/UI/SmoothScroll'
 import ScrollProgress  from '../components/UI/ScrollProgress'
-import CustomCursor    from '../components/UI/CustomCursor'
 import EasterEgg       from '../components/UI/EasterEgg'
 import SpaceCanvas     from '../components/UI/SpaceCanvas'
 import LightBurstIntro from '../components/UI/LightBurstIntro'
@@ -30,7 +29,6 @@ export default function RootLayout({ children }) {
         <LightBurstIntro />
 
         <EasterEgg />
-        <CustomCursor />
         <ScrollProgress />
         <SmoothScroll>
           {children}

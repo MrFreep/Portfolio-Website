@@ -1,6 +1,6 @@
 // src/components/Hero/ParticleField.js
 'use client'
-import { useRef, useMemo, useEffect } from 'react'
+import { useRef, useState, useMemo, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
@@ -236,12 +236,21 @@ export function StarBackground() {
 // ── Foreground layer (above hero content) — bright stars + asteroids ──────
 export function StarForeground() {
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
+  const [visible, setVisible] = useState(true)
+
+  useEffect(() => {
+    const onVisibility = () => setVisible(!document.hidden)
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => document.removeEventListener('visibilitychange', onVisibility)
+  }, [])
+
   if (isMobile) return null
   return (
     <Canvas
       camera={{ position: [0, 0, 6], fov: 75 }}
       style={{ ...CANVAS_STYLE, pointerEvents: 'none' }}
-      dpr={[1, 2]}
+      dpr={[1, 1.5]}
+      frameloop={visible ? 'always' : 'never'}
     >
       <ScrollSync />
       <ForegroundParticles count={260} />

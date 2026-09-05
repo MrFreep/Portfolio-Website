@@ -54,6 +54,11 @@ export default function SpaceCanvas() {
     }
 
     function frame(ts) {
+      // Skip work while the tab is backgrounded — avoids burning GPU/CPU when not visible
+      if (document.hidden) {
+        rafId = requestAnimationFrame(frame)
+        return
+      }
       ctx.clearRect(0, 0, W, H)
       stars.forEach(s => {
         s.x += PAN_X

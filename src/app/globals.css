@@ -2,14 +2,14 @@
 
 /* ─── CSS Custom Properties ───────────────────────────── */
 :root {
-  --bg-base:       #0d0a08;
-  --bg-elevated:   #1a1410;
-  --surface:       color-mix(in oklab, #3d2d22 88%, transparent);
+  --bg-base: #0d0a08;
+  --bg-elevated: #1a1410;
+  --surface: color-mix(in oklab, #3d2d22 88%, transparent);
   --surface-hover: color-mix(in oklab, #4a3828 92%, transparent);
-  --border:        rgba(255, 255, 255, 0.08);
-  --fg:            #fefcfb;
-  --fg-muted:      #c4b5a8;
-  --accent-cyan:   #22d3ee;
+  --border: rgba(255, 255, 255, 0.08);
+  --fg: #fefcfb;
+  --fg-muted: #c4b5a8;
+  --accent-cyan: #22d3ee;
   --accent-orange: #f97316;
 
   /* Animation */
@@ -18,13 +18,15 @@
 
 /* ─── Animated gradient property ─────────────────────── */
 @property --gradient-angle {
-  syntax: '<angle>';
+  syntax: "<angle>";
   initial-value: 0deg;
   inherits: false;
 }
 
 /* ─── Base Reset ──────────────────────────────────────── */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -37,6 +39,7 @@ html {
 body {
   background-color: var(--bg-base);
   color: var(--fg);
+  cursor: default;
   font-family: var(--font-geist-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -44,7 +47,7 @@ body {
 
 /* ─── Noise Grain Overlay ─────────────────────────────── */
 body::before {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
   z-index: 9999;
@@ -56,13 +59,19 @@ body::before {
 }
 
 /* ─── Custom Scrollbar ────────────────────────────────── */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
 ::-webkit-scrollbar-thumb {
   background: var(--surface-hover);
   border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-cyan);
+}
 
 /* Firefox */
 html {
@@ -101,14 +110,23 @@ html {
 }
 
 @keyframes drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(40px, -40px) scale(1.06); }
-  66%       { transform: translate(-25px, 25px) scale(0.94); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(40px, -40px) scale(1.06);
+  }
+  66% {
+    transform: translate(-25px, 25px) scale(0.94);
+  }
 }
 
 /* ─── Reduced Motion ──────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
@@ -141,9 +159,4 @@ html {
   pointer-events: none;
   user-select: none;
   z-index: 0;
-}
-
-/* ─── Cursor Override (desktop only) ─────────────────── */
-@media (pointer: fine) {
-  * { cursor: none !important; }
 }
