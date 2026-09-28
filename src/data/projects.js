@@ -12,7 +12,7 @@ export const projects = [
   {
     id: 'BombDrop',
     title: 'Bomb Drop',
-    description: 'A browser-based mini game where you dodge falling bombs and collect stars to progress through increasingly difficult levels.',
+    description: 'A browser based mini game where you dodge falling bombs and collect stars to progress through increasingly difficult levels.',
     tech: ['JavaScript', 'Node', 'Express'],
     image: '/projects/BombDrop-Displaypic.png',
     video: null,
@@ -22,7 +22,7 @@ export const projects = [
   {
     id: 'SpaceTravel',
     title: 'Space Travel',
-    description: 'A sci-fi fleet management simulator built as a single-page React app. You play as a commander managing spacecraft and population transfers across planets during a fictional evacuation of Earth — view fleets, build and destroy spacecraft, and dispatch ships between planets while tracking population changes.',
+    description: 'A sci-fi fleet management simulator built as a single page React app. You play as a commander managing spacecraft and population transfers across planets during a fictional evacuation of Earth — view fleets, build and destroy spacecraft, and dispatch ships between planets while tracking population changes.',
     tech: ['React', 'JavaScript', 'CSS'],
     image: '/projects/SpaceTravel.png',
     video: null,
