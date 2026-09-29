@@ -6,6 +6,8 @@ Start the development server with:
 
 ```bash
 npm run dev
+# In another terminal, check the code with:
+npm run lint
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
