@@ -20,6 +20,16 @@ export const projects = [
     githubUrl: 'https://github.com/MrFreep/BombDrop',
   },
   {
+    id: 'LabelMate',
+    title: 'Chrome LabelMate',
+    description: 'A Chrome extension for organizing your browsing by naming windows and tabs. Labels persist across browser sessions, appear in the macOS Dock context menu, and can be quickly updated from the extension popup. It only renames windows and tabs; it does not modify the New Tab page, default search engine, or search results.',
+    tech: ['JavaScript', 'HTML', 'CSS', 'Chrome Extensions'],
+    image: '/projects/Chrome-label-mate.png',
+    video: null,
+    liveUrl: 'https://chromewebstore.google.com/detail/chrome-labelmate/ggdfkihebbemkagaomjnnpmcjbgmblfh?hl=en-US&utm_source=ext_sidebar',
+    githubUrl: 'https://github.com/MrFreep/Chrome-LabelMate',
+  },
+  {
     id: 'SpaceTravel',
     title: 'Space Travel',
     description: 'A sci-fi fleet management simulator built as a single page React app. You play as a commander managing spacecraft and population transfers across planets during a fictional evacuation of Earth — view fleets, build and destroy spacecraft, and dispatch ships between planets while tracking population changes.',
