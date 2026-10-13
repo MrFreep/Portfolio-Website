@@ -93,6 +93,7 @@ export default function Header() {
               key={link.href}
               href={link.href}
               className={`${styles.navLink} ${activeSection === link.href.slice(1) ? styles.active : ""}`}
+              aria-current={activeSection === link.href.slice(1) ? "location" : undefined}
             >
               {link.label}
             </a>
