@@ -32,7 +32,7 @@ export const projects = [
   {
     id: 'SpaceTravel',
     title: 'Space Travel',
-    description: 'A sci-fi fleet management simulator built as a  React app. You play as a commander managing spacecraft and population transfers across planets during a fictional evacuation of Earth — view fleets, build and destroy spacecraft, and dispatch ships between planets while tracking population changes.',
+    description: 'A sci-fi fleet management simulator built as a React app. You play as a commander managing spacecraft and population transfers across planets during a fictional evacuation of Earth — view fleets, build and destroy spacecraft, and dispatch ships between planets while tracking population changes.',
     tech: ['React', 'JavaScript', 'CSS'],
     image: '/projects/SpaceTravel.png',
     video: null,
