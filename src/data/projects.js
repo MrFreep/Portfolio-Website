@@ -12,7 +12,7 @@ export const projects = [
   {
     id: 'BombDrop',
     title: 'Bomb Drop',
-    description: 'A browser based mini game where you dodge falling bombs and collect stars to progress through increasingly difficult levels.',
+    description: 'A browser-based mini game where you dodge falling bombs and collect stars to progress through increasingly difficult levels.',
     tech: ['JavaScript', 'Node', 'Express'],
     image: '/projects/BombDrop-Displaypic.png',
     video: null,
