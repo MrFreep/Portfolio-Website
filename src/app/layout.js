@@ -12,6 +12,11 @@ const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin']
 export const metadata = {
   title      : 'James Keenan — Software Engineer',
   description: 'Full-stack software engineer building modern web applications with clean code and user-focused design.',
+  openGraph  : {
+    title      : 'James Keenan — Software Engineer',
+    description: 'Full-stack software engineer building modern web applications with clean code and user-focused design.',
+    type       : 'website',
+  },
 }
 
 export default function RootLayout({ children }) {
