@@ -10,18 +10,18 @@ import styles from './about.module.css'
 const PILLARS = [
   {
     icon: FaCode,
-    title: 'Full-Stack Thinking',
-    text: 'Comfortable across the whole stack — React UIs, REST APIs, and database design.',
+    title: 'Curious About Systems',
+    text: 'I enjoy understanding how interfaces, APIs, and data fit together to make a product work.',
   },
   {
     icon: FaCheckCircle,
-    title: 'Clean, Tested Code',
-    text: 'Readable and maintainable, backed by tests with Jest and Supertest.',
+    title: 'People-First Problem Solver',
+    text: 'Hospitality taught me to communicate clearly, support a team, and stay calm when things get busy.',
   },
   {
     icon: FaHammer,
-    title: "Builder's Mindset",
-    text: 'From first commit to shipped product — I love the whole process of making things.',
+    title: "Always Making Things",
+    text: 'From web apps and browser tools to hands-on projects, I like turning ideas into something real.',
   },
 ]
 
@@ -73,24 +73,25 @@ export default function About() {
 
           <div className={`${styles.bioCard} glass`}>
             <p>
-              I&apos;m a Florida-based full-stack software engineer. Growing up obsessed with video games,
-              I was always fascinated by how things worked under the hood. That curiosity eventually led me
-              to building things on the web.
+              I&apos;m a developer based in Raleigh, North Carolina. I&apos;ve always been curious about how
+              systems work and enjoyed making things. Video games were one early spark, but what keeps me
+              interested is understanding how things fit together and creating something of my own.
             </p>
             <p>
-              My background spans the full stack. Crafting responsive UIs in React, building RESTful APIs
-              with Node and Express, and working with both SQL and NoSQL databases. I care about writing
-              clean, maintainable code and creating experiences that feel good to use.
+              I completed Springboard&apos;s Software Engineering Career Track and apply that training in
+              personal projects, including a full-stack social platform and a Chrome extension. I enjoy
+              working across interfaces, APIs, and data to make useful, thoughtful experiences.
             </p>
             <p>
-              Outside of code I&apos;m usually building something; 3D printing, modeling in Blender, or
-              tinkering in Unreal Engine. The drive to make things carries into everything I do.
+              I also bring around 12 years of hospitality experience, including lead-server responsibilities,
+              training teammates, and resolving guest and operational issues. Away from code, I keep making
+              things with 3D printing, Blender, and Unreal Engine.
             </p>
 
             <div className={styles.currentlyRow}>
               <span className={styles.currentlyDot} />
               <p className={styles.currentlyText}>
-                <strong>Open to opportunities</strong> — actively looking for full-stack and frontend roles.
+                <strong>Open to opportunities</strong> — software development and technology-focused roles.
               </p>
             </div>
           </div>
